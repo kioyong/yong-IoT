@@ -1,0 +1,18 @@
+server:
+  port: 9009
+
+spring:
+  application:
+      name: iot
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: mark
+
+logging:
+  level:
+    com.yong: DEBUG
+
+management:
+  security:
+    enabled: false

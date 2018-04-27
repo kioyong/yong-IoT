@@ -1,0 +1,46 @@
+db.mark.insert([
+{
+    "_id" : "1",
+    "title" : "test",
+    "isActive" : true,
+    "isLocked" : false,
+    "CreatedBy" : "anonymous",
+    "CreatedDate" : ISODate("2018-04-08T07:26:10.101Z"),
+    "_class" : "com.yong.mark.model.Mark",
+    "item" : [
+        {
+            "_id" : "01",
+            "isActive" : true,
+            "value" : 10
+        },
+        {
+            "_id" : "01",
+            "isActive" : true,
+            "value" : 20
+        }
+    ],
+    "count" : 50
+}
+,
+{
+    "_id" : "2",
+    "title" : "test",
+    "isActive" : true,
+    "isLocked" : false,
+    "CreatedBy" : "anonymous",
+    "CreatedDate" : ISODate("2018-04-08T07:26:10.101Z"),
+    "_class" : "com.yong.mark.model.Mark",
+    "item" : [
+        {
+            "_id" : "01",
+            "isActive" : true,
+            "value" : 30
+        },
+        {
+            "_id" : "02",
+            "isActive" : false,
+            "value" : 40
+        }
+    ],
+    "count" : 30
+}])
