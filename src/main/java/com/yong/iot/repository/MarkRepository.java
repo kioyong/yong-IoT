@@ -13,5 +13,11 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface MarkRepository extends ReactiveMongoRepository<Mark, String> {
     Flux<Mark> findAll(Sort sort);
+
     Flux<Mark> findByCountGreaterThanEqual(Integer count);
+
+    Flux<Mark> findByCountLessThan(Integer count);
+
+    Flux<Mark> findByCountBetween(Integer count);
+
 }
