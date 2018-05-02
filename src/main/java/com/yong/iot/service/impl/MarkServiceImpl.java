@@ -18,13 +18,13 @@ public class MarkServiceImpl implements MarkService {
 
     @Async
     @Override
-    public CompletableFuture<Flux<Mark>> findByCountGreaterThanEqualFuture(int count) {
+    public CompletableFuture<Flux<Mark>> findByCountGreaterThanEqualFutureAsync(int count) {
         return CompletableFuture.completedFuture(this.findByCountGreaterThanEqual(count));
     }
 
     @Async
     @Override
-    public CompletableFuture<Flux<Mark>> findByCountLessThanFuture(int count) {
+    public CompletableFuture<Flux<Mark>> findByCountLessThanFutureAsync(int count) {
         return CompletableFuture.completedFuture(this.findByCountLessThan(count));
     }
 

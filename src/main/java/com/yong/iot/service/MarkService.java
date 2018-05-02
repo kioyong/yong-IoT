@@ -7,8 +7,8 @@ import java.util.concurrent.CompletableFuture;
 
 public interface MarkService {
 
-    CompletableFuture<Flux<Mark>> findByCountGreaterThanEqualFuture(int count);
+    CompletableFuture<Flux<Mark>> findByCountGreaterThanEqualFutureAsync(int count);
 
-    CompletableFuture<Flux<Mark>> findByCountLessThanFuture(int count);
+    CompletableFuture<Flux<Mark>> findByCountLessThanFutureAsync(int count);
 
 }

@@ -55,8 +55,8 @@ public class MarkHandler {
         Optional<String> minOptional = request.queryParam("min");
         int max = Integer.valueOf(maxOptional.get());
         int min = Integer.valueOf(minOptional.get());
-        CompletableFuture<Flux<Mark>> cf1 = markService.findByCountGreaterThanEqualFuture(max);
-        CompletableFuture<Flux<Mark>> cf2 = markService.findByCountLessThanFuture(min);
+        CompletableFuture<Flux<Mark>> cf1 = markService.findByCountGreaterThanEqualFutureAsync(max);
+        CompletableFuture<Flux<Mark>> cf2 = markService.findByCountLessThanFutureAsync(min);
         try {
             return ok().body(
                 cf1.thenCombineAsync(cf2, (c1, c2) -> c1.concatWith(c2)).get(),
