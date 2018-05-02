@@ -1,7 +1,6 @@
 package com.yong.iot.handler;
 
 import com.yong.iot.model.Mark;
-import com.yong.iot.repository.MarkRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 /**
@@ -24,25 +22,25 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @AllArgsConstructor
 public class MarkHandler {
 
-    private final MarkRepository repository;
+//    private final MarkRepository repository;
 
-    public Mono<ServerResponse> findAllMark(final ServerRequest request) {
-        return ok().body(repository.findAll(), Mark.class);
-    }
+//    public Mono<ServerResponse> findAllMark(final ServerRequest request) {
+//        return ok().body(repository.findAll(), Mark.class);
+//    }
 
     /**
      * 校验count的有效性，0 < count <= 100
      * 查出数据库里面所有大于等于count的记录
      * 将items里面isactive=false的过滤掉
      **/
-    public Mono<ServerResponse> findMarkByCount(final ServerRequest request) {
-        int count = Integer.valueOf(request.pathVariable("count"));
-        checkArgument(count <= 100 && count > 0, "PatchVariable verification Exception, count not should be > 100 or < 0");
-        return ok().body(
-            repository.findByCountGreaterThanEqual(count)
-                .transform(this::filterInactiveItems),
-            Mark.class);
-    }
+//    public Mono<ServerResponse> findMarkByCount(final ServerRequest request) {
+//        int count = Integer.valueOf(request.pathVariable("count"));
+//        checkArgument(count <= 100 && count > 0, "PatchVariable verification Exception, count not should be > 100 or < 0");
+//        return ok().body(
+//            repository.findByCountGreaterThanEqual(count)
+//                .transform(this::filterInactiveItems),
+//            Mark.class);
+//    }
 
     Flux<Mark> filterInactiveItems(Flux<Mark> marks) {
         return marks.map(

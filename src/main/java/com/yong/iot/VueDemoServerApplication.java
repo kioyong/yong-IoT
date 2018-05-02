@@ -9,7 +9,8 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.*;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.OPTIONS;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
@@ -27,8 +28,8 @@ public class VueDemoServerApplication {
     @Bean
     public RouterFunction<ServerResponse> routerFunction(MarkHandler echoHandler) {
         return route(GET("/hello"), request -> ok().body(Mono.just("hello Web flux"), String.class))
-            .andRoute(GET("/mark"), echoHandler::findAllMark)
-            .andRoute(GET("/mark/count/{count}"), echoHandler::findMarkByCount)
+//            .andRoute(GET("/mark"), echoHandler::findAllMark)
+//            .andRoute(GET("/mark/count/{count}"), echoHandler::findMarkByCount)
             .andRoute(OPTIONS("/**"),echoHandler::optionsRequest)
             ;
     }

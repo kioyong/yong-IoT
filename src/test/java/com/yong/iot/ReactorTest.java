@@ -172,4 +172,14 @@ public class ReactorTest {
         }
         return sum;
     }
+
+    @Test
+    public void test11(){
+        log.info("start");
+        Flux<Integer> range = Flux.range(5, 3);
+        range.doOnEach(
+            t -> log.info("t = {}",t.get())
+        ).subscribe();
+    }
+
 }

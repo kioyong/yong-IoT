@@ -1,7 +1,7 @@
 package com.yong.iot.model;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
+//import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString(callSuper = true)
 public class Mark extends BaseEntity implements Comparable<Mark>{
-    @Id
+//    @Id
     private String id;
     private String title,type;
     private boolean isActive,isLocked;
