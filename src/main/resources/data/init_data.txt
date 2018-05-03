@@ -1,4 +1,4 @@
-db.mark.insert([
+/* 1 */
 {
     "_id" : "1",
     "title" : "test",
@@ -7,21 +7,27 @@ db.mark.insert([
     "CreatedBy" : "anonymous",
     "CreatedDate" : ISODate("2018-04-08T07:26:10.101Z"),
     "_class" : "com.yong.mark.model.Mark",
-    "item" : [
+    "items" : [ 
         {
             "_id" : "01",
-            "isActive" : true,
+            "isActive" : false,
             "value" : 10
-        },
+        }, 
         {
-            "_id" : "01",
+            "_id" : "02",
             "isActive" : true,
             "value" : 20
         }
     ],
-    "count" : 50
+    "item" : {
+        "_id" : "02",
+        "isActive" : true,
+        "value" : 20
+    },
+    "count" : 30
 }
-,
+
+/* 2 */
 {
     "_id" : "2",
     "title" : "test",
@@ -30,21 +36,27 @@ db.mark.insert([
     "CreatedBy" : "anonymous",
     "CreatedDate" : ISODate("2018-04-08T07:26:10.101Z"),
     "_class" : "com.yong.mark.model.Mark",
-    "item" : [
+    "items" : [ 
         {
             "_id" : "01",
-            "isActive" : true,
+            "isActive" : false,
             "value" : 30
-        },
+        }, 
         {
             "_id" : "02",
-            "isActive" : false,
+            "isActive" : true,
             "value" : 40
         }
     ],
-    "count" : 30
+    "item" : {
+        "_id" : "02",
+        "isActive" : true,
+        "value" : 40
+    },
+    "count" : 70
 }
-,
+
+/* 3 */
 {
     "_id" : "3",
     "title" : "test",
@@ -53,17 +65,34 @@ db.mark.insert([
     "CreatedBy" : "anonymous",
     "CreatedDate" : ISODate("2018-04-08T07:26:10.101Z"),
     "_class" : "com.yong.mark.model.Mark",
-    "item" : [
+    "items" : [ 
         {
             "_id" : "01",
-            "isActive" : true,
+            "isActive" : false,
             "value" : 10
-        },
+        }, 
         {
             "_id" : "01",
             "isActive" : true,
             "value" : 20
         }
     ],
-    "count" : 88
-}])
+    "item" : {
+        "_id" : "01",
+        "isActive" : true
+    },
+    "count" : 30
+}
+
+/* 4 */
+{
+    "_id" : "4",
+    "title" : "test",
+    "isActive" : true,
+    "isLocked" : false,
+    "CreatedBy" : "anonymous",
+    "CreatedDate" : ISODate("2018-04-08T07:26:10.101Z"),
+    "_class" : "com.yong.mark.model.Mark",
+    "items" : [],
+    "count" : 0
+}

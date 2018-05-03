@@ -1,5 +1,6 @@
 package com.yong.iot.handler;
 
+import com.yong.iot.model.Item;
 import com.yong.iot.model.Mark;
 import com.yong.iot.repository.MarkRepository;
 import com.yong.iot.service.MarkService;
@@ -11,12 +12,17 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static org.springframework.web.reactive.function.BodyInserters.fromObject;
+import static org.springframework.web.reactive.function.server.ServerResponse.notFound;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 /**
@@ -36,6 +42,45 @@ public class MarkHandler {
         return ok().body(repository.findAll(), Mark.class);
     }
 
+    public Mono<ServerResponse> findById(final ServerRequest request) {
+        String id = request.pathVariable("id");
+
+//        (1)
+//        return ok().body(repository.findById(id).switchIfEmpty(Mono.error(new IllegalArgumentException("not found"))), Mark.class);
+//        (2)
+//        return repository.findById(id)
+//            .flatMap(mark -> ok().body(fromObject(mark)))
+//            .switchIfEmpty(
+//                ok().body(
+//                    fromObject(
+//                        Mono.error(new IllegalArgumentException("not found")
+//                        )
+//                    )
+//                )
+//            );
+//        (3)
+//        return repository.findById(id).flatMap(mark -> ok().body(fromObject(mark))).switchIfEmpty(notFound().build());
+        return repository.findById(id).flatMap(this::serverResponse).switchIfEmpty(notFound().build());
+
+    }
+
+    public Mono<ServerResponse> findMaxItemByMarkId(final ServerRequest request) {
+        String id = request.pathVariable("id");
+        return ok().body(fromObject(repository.findById(id).map(s -> s.getItem().getValue()).onErrorReturn(0)));
+        //TODO how to go to switchIfEmpty
+//        Integer integer = repository.findById(id)
+//            .map(Mark::getItem)
+//            .map(Item::getValue)
+//            .blockOptional()
+//            .orElse(0);
+//        return ok().body(fromObject(integer));
+
+//        repository.findById(id)
+//            .flatMap(mark -> Stream.of(mark.getItem()).flatMap(item -> item.getValue()).)
+
+    }
+
+
     /**
      * 校验count的有效性，0 < count <= 100
      * 查出数据库里面所有大于等于count的记录
@@ -50,6 +95,7 @@ public class MarkHandler {
             Mark.class);
     }
 
+    //TODO pending tuning
     public Mono<ServerResponse> findMarkByLimit(final ServerRequest request) {
         Optional<String> maxOptional = request.queryParam("max");
         Optional<String> minOptional = request.queryParam("min");
@@ -90,7 +136,7 @@ public class MarkHandler {
     Flux<Mark> filterInactiveItems(Flux<Mark> marks) {
         return marks.map(
             t -> {
-                t.setItem(t.getItem().stream().filter(
+                t.setItems(t.getItems().stream().filter(
                     i -> i.isActive() == true).collect(Collectors.toList()));
                 return t;
             });
@@ -102,13 +148,14 @@ public class MarkHandler {
             , String.class);
     }
 
-    Mono<ServerResponse> serverResponse(Mono<Mark> markMono) {
-        return ok().body(markMono, Mark.class);
+    Mono<ServerResponse> serverResponse(Mark mark) {
+        return ok().body(fromObject(mark));
     }
 
-    Mono<ServerResponse> serverResponse(Flux<Mark> marks) {
-        return (Mono<ServerResponse>) ok().body(marks, Mark.class);
+    Mono<ServerResponse> serverResponse(Mono<Mark> mono) {
+        return ok().body(mono, Mark.class);
     }
+
 
     public Mono<ServerResponse> optionsRequest(ServerRequest request) {
         return ok().build();

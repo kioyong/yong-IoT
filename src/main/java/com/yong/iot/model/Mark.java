@@ -19,11 +19,13 @@ public class Mark extends BaseEntity implements Comparable<Mark>{
     private String id;
     private String title,type;
     private boolean isActive,isLocked;
-    private List<Item> item;
+    private List<Item> items;
+    private Item item;
     private Integer count;
 
     public static Mark updateMark(Mark oldRecord, Mark newRecord){
         oldRecord.setActive(newRecord.isActive());
+        oldRecord.setItems(newRecord.getItems());
         oldRecord.setItem(newRecord.getItem());
         oldRecord.setLocked(newRecord.isLocked());
         oldRecord.setTitle(newRecord.getTitle());

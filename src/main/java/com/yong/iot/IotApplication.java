@@ -30,6 +30,8 @@ public class IotApplication {
     public RouterFunction<ServerResponse> routerFunction(MarkHandler echoHandler) {
         return route(GET("/hello"), request -> ok().body(Mono.just("hello Web flux"), String.class))
             .andRoute(GET("/mark"), echoHandler::findAllMark)
+            .andRoute(GET("/mark/{id}"), echoHandler::findById)
+            .andRoute(GET("/mark/item/value/{id}"), echoHandler::findMaxItemByMarkId)
             .andRoute(GET("/mark/count/{count}"), echoHandler::findMarkByCount)
             .andRoute(GET("/mark/limit"), echoHandler::findMarkByLimit)
             .andRoute(GET("/test1"), echoHandler::test1)

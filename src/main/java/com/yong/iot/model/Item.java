@@ -11,6 +11,6 @@ import lombok.Data;
 public class Item {
     private String id,text;
     private boolean isActive,isChecked;
-    private int value;
+    private Integer value;
 
 }

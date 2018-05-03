@@ -72,7 +72,6 @@ public class AsyncTest {
     }
 
 
-
     public String runA(){
         try {
             Thread.sleep(1000l);
