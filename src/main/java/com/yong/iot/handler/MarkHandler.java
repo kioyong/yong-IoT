@@ -42,6 +42,9 @@ public class MarkHandler {
         return ok().body(repository.findAll(), Mark.class);
     }
 
+    /**
+     * 主动抛出异常示例
+     * **/
     public Mono<ServerResponse> findById(final ServerRequest request) {
         String id = request.pathVariable("id");
 
@@ -64,25 +67,35 @@ public class MarkHandler {
 
     }
 
+    /**
+     * 深层嵌套路径空指针处理示范
+     * **/
     public Mono<ServerResponse> findMaxItemByMarkId(final ServerRequest request) {
         String id = request.pathVariable("id");
-        return ok().body(fromObject(repository.findById(id).map(s -> s.getItem().getValue()).onErrorReturn(0)));
-        //TODO how to go to switchIfEmpty
-//        Integer integer = repository.findById(id)
-//            .map(Mark::getItem)
-//            .map(Item::getValue)
-//            .blockOptional()
-//            .orElse(0);
-//        return ok().body(fromObject(integer));
-
-//        repository.findById(id)
-//            .flatMap(mark -> Stream.of(mark.getItem()).flatMap(item -> item.getValue()).)
-
+        return ok().body(
+            repository.findById(id).map(Mark::getItem).map(Item::getValue)
+                .defaultIfEmpty(0).onErrorReturn(0)
+            ,Integer.class);
     }
+
+    /**
+     * 对比
+     * **/
+//    @GetMapping("/mark/item/value/{id}")
+//    public Integer findMaxItemByMarkId(@PathVariable("id") String id) {
+//        Mark mark = repository.findById(id)；
+//        if (mark ==null || mark.getItem() ==null || mark.getItem().getValue() == null){
+//            return 0;
+//        }else{
+//            return mark.getItem().getValue();
+//        }
+//    }
 
 
     /**
-     * 校验count的有效性，0 < count <= 100
+     * 数据处理示例
+     *
+     * 校验参数的有效性，0 < count <= 100
      * 查出数据库里面所有大于等于count的记录
      * 将items里面isactive=false的过滤掉
      **/
@@ -95,6 +108,9 @@ public class MarkHandler {
             Mark.class);
     }
 
+    /**
+     * 多线程处理示例 async
+     * **/
     //TODO pending tuning
     public Mono<ServerResponse> findMarkByLimit(final ServerRequest request) {
         Optional<String> maxOptional = request.queryParam("max");
@@ -130,7 +146,6 @@ public class MarkHandler {
 //            repository.findByCountGreaterThanEqual(max).concatWith(repository.findByCountLessThan(min)),
 //            Mark.class
 //        );
-//
 //    }
 
     Flux<Mark> filterInactiveItems(Flux<Mark> marks) {
@@ -148,8 +163,8 @@ public class MarkHandler {
             , String.class);
     }
 
-    Mono<ServerResponse> serverResponse(Mark mark) {
-        return ok().body(fromObject(mark));
+    Mono<ServerResponse> serverResponse(Object object) {
+        return ok().body(fromObject(object));
     }
 
     Mono<ServerResponse> serverResponse(Mono<Mark> mono) {
