@@ -43,4 +43,27 @@ db.mark.insert([
         }
     ],
     "count" : 30
+}
+,
+{
+    "_id" : "3",
+    "title" : "test",
+    "isActive" : true,
+    "isLocked" : false,
+    "CreatedBy" : "anonymous",
+    "CreatedDate" : ISODate("2018-04-08T07:26:10.101Z"),
+    "_class" : "com.yong.mark.model.Mark",
+    "item" : [
+        {
+            "_id" : "01",
+            "isActive" : true,
+            "value" : 10
+        },
+        {
+            "_id" : "01",
+            "isActive" : true,
+            "value" : 20
+        }
+    ],
+    "count" : 88
 }])

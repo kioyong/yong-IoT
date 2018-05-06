@@ -2,7 +2,10 @@ package com.yong.iot;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
+import reactor.core.publisher.Mono;
 
 import java.util.*;
 import java.util.function.Function;
@@ -175,6 +178,11 @@ public class ReactorTest {
 
     @Test
     public void test11(){
+        Mono<String> test = Mono.just("test");
+        test.subscribe(System.out::println);
+    }
+    @Test
+    public void test12(){
         log.info("start");
         Flux<Integer> range = Flux.range(5, 3);
         range.doOnEach(
