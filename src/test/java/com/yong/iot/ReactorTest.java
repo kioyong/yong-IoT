@@ -16,9 +16,22 @@ import java.util.stream.Collectors;
 /**
  * @author LiangYong
  * @date 2017/11/22
+ * @refer https://www.infoq.com/articles/reactor-by-example/#
  */
 @Slf4j
 public class ReactorTest {
+
+    private static List<String> words = Arrays.asList(
+        "the",
+        "quick",
+        "brown",
+        "fox",
+        "jumped",
+        "over",
+        "the",
+        "lazy",
+        "dog"
+    );
 
     @Test
     public void test1() {
@@ -188,6 +201,13 @@ public class ReactorTest {
         range.doOnEach(
             t -> log.info("t = {}",t.get())
         ).subscribe();
+    }
+
+    @Test
+    public void test13(){
+        Flux<String> manyWords = Flux.fromIterable(ReactorTest.words);
+
+
     }
 
 }

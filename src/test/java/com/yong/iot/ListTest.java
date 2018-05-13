@@ -55,7 +55,7 @@ public class ListTest {
     public void test3(){
         List<Integer> list = getTestData();
 //        list.sort(Comparator.reverseOrder());
-        list.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
+        list.stream().sorted((t1,t2) -> -1).forEach(System.out::println);
     }
 
 

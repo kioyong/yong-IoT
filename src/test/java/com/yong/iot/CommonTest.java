@@ -19,10 +19,26 @@ public class CommonTest {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = simpleDateFormat.parse("2017-12-13");
         Date endDate = simpleDateFormat.parse("2017-12-26");
-        log.debug("startDate = {}",startDate);
-        log.debug("endDate = {}",endDate);
+        log.debug("startDate = {}", startDate);
+        log.debug("endDate = {}", endDate);
 //        int i = endDate.compareTo(startDate);
         long l = (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000);
-        log.debug("l = {}",l);
+        log.debug("l = {}", l);
+    }
+
+    @Test
+    public void test1() {
+        String number = "2506020000";
+        long i = Long.valueOf(number) / 60000;
+        log.debug("i = {}", i);
+    }
+
+
+    @Test
+    public void test2(){
+        long t1 = 1525784366500l;
+        long t2 = 1517144127967l;
+        long l = (t1 - t2) / (24 * 60 * 60 * 1000);
+        log.debug("time = {}",l);
     }
 }

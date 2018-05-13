@@ -78,9 +78,7 @@ public class MarkHandler {
             ,Integer.class);
     }
 
-    /**
-     * 对比
-     * **/
+
 //    @GetMapping("/mark/item/value/{id}")
 //    public Integer findMaxItemByMarkId(@PathVariable("id") String id) {
 //        Mark mark = repository.findById(id)；
@@ -97,7 +95,7 @@ public class MarkHandler {
      *
      * 校验参数的有效性，0 < count <= 100
      * 查出数据库里面所有大于等于count的记录
-     * 将items里面isactive=false的过滤掉
+     * 将items里面isActive=false的过滤掉
      **/
     public Mono<ServerResponse> findMarkByCount(final ServerRequest request) {
         int count = Integer.valueOf(request.pathVariable("count"));
@@ -121,12 +119,10 @@ public class MarkHandler {
         CompletableFuture<Flux<Mark>> cf2 = markService.findByCountLessThanFutureAsync(min);
         try {
             return ok().body(
-                cf1.thenCombineAsync(cf2, (c1, c2) -> c1.concatWith(c2)).get(),
+                cf1.thenCombineAsync(cf2, Flux::concatWith).get(),
                 Mark.class
             );
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return null;
@@ -151,8 +147,7 @@ public class MarkHandler {
     Flux<Mark> filterInactiveItems(Flux<Mark> marks) {
         return marks.map(
             t -> {
-                t.setItems(t.getItems().stream().filter(
-                    i -> i.isActive() == true).collect(Collectors.toList()));
+                t.setItems(t.getItems().stream().filter(Item::isActive).collect(Collectors.toList()));
                 return t;
             });
     }
