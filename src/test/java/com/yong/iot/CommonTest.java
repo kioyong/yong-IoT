@@ -53,7 +53,7 @@ public class CommonTest {
 
     @Test
     public void test3() {
-        String n = "11412";
+        String n = "1000";
         String s = nearestPalindromic(n);
         log.debug("result = {},", s);
     }
@@ -64,19 +64,28 @@ public class CommonTest {
         int j = (n.length()) % 2;
         String str = n.substring(0, i);
         String var1 = getStr(str, j);
-        if (var1.compareTo(n) > 0 || n.equals(var1)) {
-            str = String.valueOf(Long.valueOf(str) - 1);
+        String newStr;
+        if ((var1.compareTo(n) > 0 || n.equals(var1)) && String.valueOf(Long.valueOf(str) + 1).length() == str.length()) {
+            newStr = String.valueOf(Long.valueOf(str) - 1);
+            if (newStr.equals("0")) {
+                newStr = "9";
+            } else if (newStr.length() > str.length()) {
+                newStr = newStr.substring(0, newStr.length() - 1);
+            }
+
         } else {
-            str = String.valueOf(Long.valueOf(str) + 1);
+            newStr = String.valueOf(Long.valueOf(str) + 1);
+            if (newStr.length() != str.length()) {
+                newStr = newStr.substring(0, newStr.length() - 1);
+            }
         }
-        String var2 = getStr(str, j);
-        if(compareToValue(var1,var2,n)){
-        return var2;
+        String var2 = getStr(newStr, j);
+        if (compareToValue(var1, var2, n)) {
+            return var2;
+        } else {
+            return var1;
+        }
     }
-        else{
-        return var1;
-    }
-}
 
     private String getStr(String str, int i) {
         String r1 = str;
@@ -87,9 +96,9 @@ public class CommonTest {
     }
 
     private boolean compareToValue(String var1, String var2, String n) {
-        long long1 = Long.valueOf(var1.length()==1?var1:var1.substring(var1.length()/2,var1.length()));
-        long long2 = Long.valueOf(var2.length()==1?var2:var2.substring(var2.length()/2,var2.length()));
-        long longn = Long.valueOf(n.length()==1?n:n.substring(n.length()/2,n.length()));
+        long long1 = Long.valueOf(var1.length() == 1 ? var1 : var1.substring(var1.length() / 2 - 1, var1.length()));
+        long long2 = Long.valueOf(var2.length() == 1 ? var2 : var2.substring(var2.length() / 2 - 1, var2.length()));
+        long longn = Long.valueOf(n.length() == 1 ? n : n.substring(n.length() / 2 - 1, n.length()));
         return Math.abs(long1 - longn) > Math.abs(long2 - longn) || long1 == longn;
     }
 
