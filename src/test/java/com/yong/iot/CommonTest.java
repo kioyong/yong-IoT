@@ -1,11 +1,15 @@
 package com.yong.iot;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 
+import javax.validation.constraints.AssertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @acthor yong.a.liang
@@ -49,40 +53,71 @@ public class CommonTest {
 
     @Test
     public void test3() {
-        String n = "1223";
+        String n = "11412";
         String s = nearestPalindromic(n);
         log.debug("result = {},", s);
     }
 
-//    https://leetcode-cn.com/problems/find-the-closest-palindrome/description/
+    //    https://leetcode-cn.com/problems/find-the-closest-palindrome/description/
     private String nearestPalindromic(String n) {
         int i = (n.length() + 1) / 2;
         int j = (n.length()) % 2;
         String str = n.substring(0, i);
-        String result = getStr(str,j);
-        long value = n.length()==1?Long.valueOf(n):Long.valueOf(n.substring(i-n.length()%2,n.length()));
-        long r1value = result.length()==1?Long.valueOf(n):Long.valueOf(result.substring(i-n.length()%2,n.length()));
-        if (r1value > value || n.equals(result)) {
+        String var1 = getStr(str, j);
+        if (var1.compareTo(n) > 0 || n.equals(var1)) {
             str = String.valueOf(Long.valueOf(str) - 1);
         } else {
             str = String.valueOf(Long.valueOf(str) + 1);
         }
-        String result2 = getStr(str,j);
-        long r2value = result2.length()==1?Long.valueOf(result2):Long.valueOf(result2.substring(i-n.length()%2,n.length()));
-        if (Math.abs(r1value - value) > Math.abs(r2value - value)  || r1value == value) {
-            return result2;
-        } else {
-            return result;
-        }
+        String var2 = getStr(str, j);
+        if(compareToValue(var1,var2,n)){
+        return var2;
     }
+        else{
+        return var1;
+    }
+}
 
-    private String getStr(String str,int i) {
+    private String getStr(String str, int i) {
         String r1 = str;
-        for (int j = str.length() - i; j > (1 - i); j--) {
-            r1 = r1.concat(str.substring(j - 2 + i, j - 1 + i));
+        for (int j = str.length() - i; j > 0; j--) {
+            r1 = r1.concat(str.substring(j - 1, j));
         }
         return r1;
     }
 
+    private boolean compareToValue(String var1, String var2, String n) {
+        long long1 = Long.valueOf(var1.length()==1?var1:var1.substring(var1.length()/2,var1.length()));
+        long long2 = Long.valueOf(var2.length()==1?var2:var2.substring(var2.length()/2,var2.length()));
+        long longn = Long.valueOf(n.length()==1?n:n.substring(n.length()/2,n.length()));
+        return Math.abs(long1 - longn) > Math.abs(long2 - longn) || long1 == longn;
+    }
 
+    @Test
+    public void test6() {
+        String s1 = "1234";
+        String s2 = "12345";
+        String s3 = "123456";
+        String str = getStr("12", 0);
+        String str1 = getStr("123", 1);
+        String str2 = getStr("123", 0);
+        log.debug("str = {}, str1 = {}, str2 = {}", str, str1, str2);
+    }
+
+    @Test
+    public void test7() {
+        String s1 = "12345678987654322";
+        String s2 = "12345678987654321";
+        String s3 = "12345678887654322";
+        assertTrue(s1.compareTo(s2) > 0);
+        assertTrue(s1.compareTo(s3) > 0);
+        assertTrue(s2.compareTo(s1) < 0);
+        assertTrue(s2.compareTo(s3) > 0);
+    }
+
+    @Test
+    public void test8() {
+        long value = Long.valueOf("100000000");
+        log.debug("value = {}", value);
+    }
 }
