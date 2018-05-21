@@ -3,61 +3,32 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 @Slf4j
 public class FindUnsortedSubarrayTest {
 
     //https://leetcode-cn.com/problems/shortest-unsorted-continuous-subarray/description/
     @Test
     public void test() {
-        int[] input = new int[]{2, 1};
+        int[] input = new int[]{2, 4, 3, 6};
         int unsortedSubarray = findUnsortedSubarray(input);
         log.debug("result = {},", unsortedSubarray);
     }
 
-    @Test
-    public void testSort() {
-        int[] input = new int[]{1, 2, 3, 4};
-        int[] sort = new int[input.length];
-        System.arraycopy(input, 0, sort, 0, input.length);
-        sort = sort(sort);
-        int complate = complate(input, sort);
-        log.debug("sort = {},result = {}", sort, complate);
-    }
 
     private int findUnsortedSubarray(int[] nums) {
-        int[] sort = new int[nums.length];
-        System.arraycopy(nums, 0, sort, 0, nums.length);
-        sort = sort(sort);
-        return complate(nums, sort);
+        int beg, end;
+        beg = end = 0;
+        int n = nums.length;
+        int min = nums[n - 1];
+        int max = nums[0];
+        for (int i = 0; i < n; i++) {
+            min = Math.min(nums[n - i - 1], min);
+            max = Math.max(nums[i], max);
+            if (nums[i] < max) end = i;
+            if (nums[n - i - 1] > min) beg = n - i - 1;
+        }
+        return end == 0 ? 0 : end - beg + 1;
     }
 
-    private int[] sort(int[] nums) {
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                if (nums[i] > nums[j]) {
-                    int n = nums[j];
-                    nums[j] = nums[i];
-                    nums[i] = n;
-                }
-            }
-        }
-        return nums;
-    }
-
-    private int complate(int[] nums, int[] sort) {
-        int before = 0;
-        int after = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != sort[i]) {
-                if (before == 0) {
-                    before = i + 1;
-                }
-                after = i + 1;
-            }
-        }
-        return after - before + (before == 0 ? 0 : 1);
-    }
 
 }
