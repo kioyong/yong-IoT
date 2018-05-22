@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 @Slf4j
 public class FindUnsortedSubarrayTest {
@@ -57,23 +58,54 @@ public class FindUnsortedSubarrayTest {
     @Test
 //    https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy/1/array/23/
     public void test4() {
-        int[] input = new int[]{1,2,3,4,5,6};
-        rotate(input, 2);
+        int[] input = new int[]{1, 2};
+        rotate(input, 3);
         log.debug("input = {}", input);
     }
 
-    private void rotate(int[] nums, int k) {
+    public void rotate(int[] nums, int k) {
         int l = nums.length;
-        int t1 = nums[0];
-        int t2;
-        int j = k % l;
-        for (int i = 0; i <= l; i++) {
-            t2 = nums[j];
-            nums[j] = t1;
-            t1 = t2;
-            j = (j + k) % l;
+        int[] res = new int[l];
+        for (int i = 0; i < l; i++) {
+            int j = (l + i - (k % l)) % l;
+            res[i] = nums[j];
         }
+        System.arraycopy(res, 0, nums, 0, l);
+    }
+
+    @Test
+    //https://leetcode-cn.com/problems/jewels-and-stones/description/
+    public void test5() {
+        String J = "aA";
+        String S = "AAAAaaaadddsss";
+        int i = numJewelsInStones(J, S);
+        log.debug("sum = {}", i);
+    }
+
+    private int numJewelsInStones(String J, String S) {
+        int sum = 0;
+        for (char value : S.toCharArray()) if (J.contains(String.valueOf(value))) sum++;
+        return sum;
     }
 
 
+    @Test
+    //https://leetcode-cn.com/problems/judge-route-circle/description/
+    public void test6() {
+        String s = "UD";
+        boolean b = judgeCircle(s);
+    }
+
+    private boolean judgeCircle(String moves) {
+        int x = 0;
+        int y = 0;
+        char[] chars = moves.toCharArray();
+        for (char c : chars) {
+            if (c == 'U') y++;
+            if (c == 'D') y--;
+            if (c == 'R') x++;
+            if (c == 'L') x--;
+        }
+        return x == 0 && y == 0;
+    }
 }

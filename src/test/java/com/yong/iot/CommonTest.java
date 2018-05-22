@@ -64,38 +64,38 @@ public class CommonTest {
     //    https://leetcode-cn.com/problems/find-the-closest-palindrome/description/
     private String nearestPalindromic(String n) {
         if (Long.valueOf(n)<11) {
-            return String.valueOf(Long.valueOf(n) - 1);
-        }
-        if (n.equals("11")) {
-            return "9";
-        }
-        int i = (n.length() + 1) / 2;
-        int j = (n.length()) % 2;
-        String b = n.substring(0, i);
-        String r1 = getStr(b, j);
-        String b1;
-        if (r1.compareTo(n) > 0) {
-            b1 = String.valueOf(Long.valueOf(b) - 1);
-            j = j + (b.length() - b1.length());
-            b1 = b1.concat(b1.substring(0,b.length()-b1.length()));
-        } else if (r1.compareTo(n) < 0) {
-            b1 = String.valueOf(Long.valueOf(b) + 1);
-            j = j - (b1.length() - b.length());
-        } else {
-            b1 = String.valueOf(Long.valueOf(b) + 1);
-            int j1 = j + (b1.length() - b.length());
-            r1 = getStr(b1,j1);
-            b1 = String.valueOf(Long.valueOf(b) - 1);
-            j = j + (b.length() - b1.length());
-            b1 = b1.concat(b1.substring(0,b.length()-b1.length()));
-        }
-        String r2 = getStr(b1, j);
-        if (compareToValue(r1, r2, n)) {
-            return r2;
-        } else {
-            return r1;
-        }
+        return String.valueOf(Long.valueOf(n) - 1);
     }
+        if (n.equals("11")) {
+        return "9";
+    }
+    int i = (n.length() + 1) / 2;
+    int j = (n.length()) % 2;
+    String b = n.substring(0, i);
+    String r1 = getStr(b, j);
+    String b1;
+        if (r1.compareTo(n) > 0) {
+        b1 = String.valueOf(Long.valueOf(b) - 1);
+        j = j + (b.length() - b1.length());
+        b1 = b1.concat(b1.substring(0,b.length()-b1.length()));
+    } else if (r1.compareTo(n) < 0) {
+        b1 = String.valueOf(Long.valueOf(b) + 1);
+        j = j - (b1.length() - b.length());
+    } else {
+        b1 = String.valueOf(Long.valueOf(b) + 1);
+        int j1 = j + (b1.length() - b.length());
+        r1 = getStr(b1,j1);
+        b1 = String.valueOf(Long.valueOf(b) - 1);
+        j = j + (b.length() - b1.length());
+        b1 = b1.concat(b1.substring(0,b.length()-b1.length()));
+    }
+    String r2 = getStr(b1, j);
+        if (compareToValue(r1, r2, n)) {
+        return r2;
+    } else {
+        return r1;
+    }
+}
 
     public String nearestPalindromic1(String n) {
         int order = (int) Math.pow(10, n.length() / 2);
