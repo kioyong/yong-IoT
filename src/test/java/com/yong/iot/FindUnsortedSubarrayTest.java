@@ -3,7 +3,10 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class FindUnsortedSubarrayTest {
@@ -141,7 +144,7 @@ public class FindUnsortedSubarrayTest {
     public void test8() {
         String[] words = new String[]{"Hello", "Alaska", "Dad", "Peace"};
         String[] result = findWords(words);
-        log.debug("result = {}", result);
+        log.debug("result = {}", (Object) result);
     }
 
     public String[] findWords(String[] words) {
@@ -165,49 +168,72 @@ public class FindUnsortedSubarrayTest {
     }
 
     @Test
-    //https://leetcode-cn.com/problems/max-points-on-a-line/description/
+//    https://leetcode-cn.com/problems/max-points-on-a-line/description/
     public void test9() {
-        Point[] points = new Point[]{new Point(1, 1), new Point(1, 1), new Point(2, 2), new Point(2, 2)};
+//        Point[] points = new Point[]{new Point(1, 1), new Point(1, 1), new Point(2, 2), new Point(2, 2)};
+//        Point[] points = new Point[]{new Point(2, 3), new Point(2, 5), new Point(4, 1), new Point(4, 4), new Point(4, 6)};
+//        Point[] points = new Point[]{new Point(3, 1), new Point(12, 3), new Point(3, 1), new Point(-6, -1)};
+        Point[] points = new Point[]{new Point(0,9),new Point(138,429),new Point(115,359),new Point(115,359),new Point(-30,-102),new Point(230,709),new Point(-150,-686),new Point(-135,-613),new Point(-60,-248),new Point(-161,-481),new Point(207,639),new Point(23,79),new Point(-230,-691),new Point(-115,-341),new Point(92,289),new Point(60,336),new Point(-105,-467),new Point(135,701),new Point(-90,-394),new Point(-184,-551),new Point(150,774)};
         int i = maxPoints(points);
         log.debug("result = {}", i);
     }
 
     private int maxPoints(Point[] points) {
-        if (points.length == 1) return 1;
-        Map<String, Integer> map = new HashMap<>();
+        if (points.length <= 1) return points.length;
+        Map<String, List<Integer>> map = new HashMap<>();
         for (int i = 0; i < points.length; i++) {
-            Map<String, Integer> newMap = new HashMap<>();
             for (int j = i + 1; j < points.length; j++) {
-                float a = (points[j].x - points[i].x) == 0 ? 0 : ((points[j].y - points[i].y)) == 0 ? 0 : ((float) (points[j].y - points[i].y) / ((float) (points[j].x - points[i].x)));
-                float b = points[j].y - a * points[j].x;
-                String key1 = a == 0 ? String.valueOf(i) : String.valueOf(a).concat("_").concat(String.valueOf(b)).concat(String.valueOf(i));
-                String key2 = a == 0 ? String.valueOf(j) : String.valueOf(a).concat("_").concat(String.valueOf(b).concat(String.valueOf(j)));
-                if (!map.containsKey(key1)) {
-                    if (newMap.containsKey(key1)) {
-                        newMap.put(key1, newMap.get(key1) + 1);
-                    } else {
-                        newMap.put(key1, 2);
-                    }
-                }
-                if (!map.containsKey(key2)) {
-                    if (newMap.containsKey(key2)) {
-                        newMap.put(key2, newMap.get(key2) + 1);
-                    } else {
-                        newMap.put(key2, 2);
-                    }
+                String key = getKey(points[i], points[j]);
+                if (!map.containsKey(key)) {
+                    map.put(key, Arrays.asList(j, i));
+                } else {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(i);
+                    list.add(j);
+                    list.addAll(map.get(key));
+                    map.put(key, list);
                 }
             }
-            map.putAll(newMap);
         }
-        Set<String> strings = map.keySet();
-        int maxSize = 0;
-        for (String key : strings) {
-            if (map.get(key) > maxSize) {
-                maxSize = map.get(key);
+        Set<String> keys = map.keySet();
+        long maxCount = 0;
+        String maxKey = "";
+        for (String key : keys) {
+            long count = map.get(key).stream().distinct().count();
+            if (count > maxCount) {
+                maxCount = count;
+                maxKey = key;
             }
         }
-        return maxSize;
+        List<Integer> size = map.get(maxKey).stream().distinct().sorted().collect(Collectors.toList());
+        for (int i = 0; i < size.size() - 1; i++) {
+            int x = size.get(i);
+            int y = size.get(i + 1);
+            String key = getKey(points[x], points[y]);
+            if (!(points[y].x - points[x].x == 0 && points[y].y - points[x].y == 0) &&
+                !maxKey.equals(key)) {
+                maxCount--;
+            }
+        }
+        return (int) maxCount;
     }
+
+    public String getKey(Point i, Point j) {
+        String key;
+        if ((j.x - i.x) == 0) {
+            key = j.x + "_";
+        } else if ((j.y - i.y) == 0) {
+            key = "_" + j.y;
+        } else {
+//            double a = new BigDecimal(j.y - i.y).divide(new BigDecimal(j.x - i.x),16,BigDecimal.ROUND_DOWN).doubleValue();
+//            double b = new BigDecimal(j.y).subtract(new BigDecimal(a).multiply(new BigDecimal(j.x))).setScale(15,BigDecimal.ROUND_DOWN).doubleValue();
+            double a = (double) (j.y - i.y) / (double) (j.x - i.x);
+            String b = String.format("%.4f",(j.y - a * j.x));
+            key = a + "_" + b;
+        }
+        return key;
+    }
+
 
     class Point {
         int x;
@@ -222,6 +248,21 @@ public class FindUnsortedSubarrayTest {
             x = a;
             y = b;
         }
+
+    }
+
+    @Test
+    public void test10() {
+        List<Integer> list = new ArrayList<>();
+        list.addAll(Arrays.asList(1, 3));
+        list.add(4);
+        list.add(5);
+        list.add(6);
+        log.debug("list size = {}", list.size());
+        long count = list.stream().distinct().count();
+        log.debug("count = {}", count);
+
+
     }
 
 
