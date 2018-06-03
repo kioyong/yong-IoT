@@ -3,10 +3,7 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.IntSummaryStatistics;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -47,15 +44,26 @@ public class ListTest {
         log.debug("result = {}", result);
         assertEquals(list.stream().collect(Collectors.summarizingInt(x -> x)).getMin(), result.get(result.size() - 1).intValue());
 
-        result = list.stream().map(x->x+1).collect(Collectors.toList());
+        result = list.stream().map(x -> x + 1).collect(Collectors.toList());
         log.debug("result = {}", result);
     }
 
     @Test
-    public void test3(){
+    public void test3() {
         List<Integer> list = getTestData();
 //        list.sort(Comparator.reverseOrder());
-        list.stream().sorted((t1,t2) -> -1).forEach(System.out::println);
+        list.stream().sorted((t1, t2) -> -1).forEach(System.out::println);
+    }
+
+    public boolean containsDuplicate(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] == nums[i + 1]) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
 
