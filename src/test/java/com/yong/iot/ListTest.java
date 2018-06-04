@@ -1,5 +1,7 @@
 package com.yong.iot;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -64,6 +66,108 @@ public class ListTest {
         }
         return false;
 
+    }
+
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        int level = 0;
+        levelOrder(res, root, level);
+        return res;
+    }
+
+    @Test
+    public void test5() {
+        TreeNode r1 = null;
+        TreeNode r2 = new TreeNode(3);
+        TreeNode r3 = null;
+        TreeNode r4 = new TreeNode(3);
+
+        TreeNode m1 = new TreeNode();
+//        m1.setLeft(r1);
+//        m1.setRight(r2);
+
+        TreeNode m2 = new TreeNode(-3);
+//        m2.setLeft(r3);
+//        m2.setRight(r4);
+
+        TreeNode t1 = new TreeNode(-2);
+        t1.setLeft(m1);
+        t1.setRight(m2);
+        boolean symmetric = hasPathSum(t1,-5);
+        log.debug("result = {}", symmetric);
+
+    }
+
+    public void levelOrder(List<List<Integer>> list, TreeNode root, int level) {
+        if (root == null) return;
+        if (list.size() > level) {
+            list.get(level).add(root.val);
+        } else {
+            List<Integer> sub = new ArrayList<>();
+            sub.add(root.val);
+            list.add(sub);
+        }
+        levelOrder(list, root.left, level + 1);
+        levelOrder(list, root.right, level + 1);
+    }
+
+    @Data
+    @NoArgsConstructor
+    class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    public int maxDepth(TreeNode root) {
+        int level = 0;
+        answer = 0;
+        maxDepth(root, level);
+        return answer;
+    }
+
+    static int answer = 0;
+
+    public void maxDepth(TreeNode root, int depth) {
+        if (root != null) {
+            depth++;
+            if (root.left == null && root.right == null) {
+                answer = Math.max(answer, depth);
+            } else {
+                maxDepth(root.left, depth);
+                maxDepth(root.right, depth);
+            }
+        }
+    }
+
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return isSymmetric(root.left, root.right);
+    }
+
+    public boolean isSymmetric(TreeNode left, TreeNode right) {
+        if (left == null && right == null) return true;
+        if (right == null || left == null || (right.val != left.val)) return false;
+        return isSymmetric(left.left, right.right) && isSymmetric(left.right, right.left);
+    }
+
+    public boolean hasPathSum(TreeNode root, int sum) {
+        int res = 0;
+        return hasPathSum(root, res, sum);
+    }
+
+    public boolean hasPathSum(TreeNode root, int res, int sum) {
+
+        if (root == null) return false;
+        res += root.val;
+        if (root.left == null && root.right == null && res == sum) return true;
+        return hasPathSum(root.left, res, sum) || hasPathSum(root.right, res, sum);
     }
 
 

@@ -87,7 +87,7 @@ public class WeeklyContest87 {
                 Integer val = map.get(firstKey + a);
                 if (val == 1) {
                     map.remove(firstKey + a);
-                }else{
+                } else {
                     map.put(firstKey + a, val - 1);
                 }
 
@@ -99,7 +99,7 @@ public class WeeklyContest87 {
     @Test
     public void test3() {
         int[] hand = new int[]{1, 2, 3, 6, 2, 3, 4, 7, 8};
-        boolean nStraightHand = isNStraightHand(hand, 3);
+        boolean nStraightHand = isNStraightHandOther(hand, 3);
         log.debug("result = {}", nStraightHand);
     }
 
@@ -234,6 +234,48 @@ public class WeeklyContest87 {
         log.debug("length = {}", list[0].length);
         log.debug("1 = {}", list[0][0]);
         log.debug("2 = {}", list[0][1]);
+    }
+
+    public boolean isNStraightHandOther(int[] hand, int W) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int out : hand) {
+            map.put(out, map.getOrDefault(out, 0) + 1);
+        }
+        while (!map.isEmpty()) {
+            Integer fir = map.firstKey();
+            for (int i = 0; i < W; i++) {
+                Integer val = map.getOrDefault(fir + i, 0);
+                if (val == 0) return false;
+                if (val == 1) {
+                    map.remove(fir + i);
+                } else {
+                    map.put(fir + i, map.get(fir + i) - 1);
+                }
+            }
+        }
+        return true;
+    }
+
+
+    @Test
+    public void test5() {
+        int[] nums = new int[]{3,2,2,3};
+        int i = removeElement(nums, 3);
+    }
+
+    public int removeElement(int[] nums, int val) {
+        if (nums.length==0) return 0;
+        int res = nums.length;
+        int count = 0;
+        for (int i = 0; i < res; i++) {
+            while (i + count < res && nums[i + count] == val) {
+                count++;
+            }
+            if (i + count > res - 1) break;
+            nums[i] = nums[i + count];
+        }
+        return res - count;
+
     }
 }
 
