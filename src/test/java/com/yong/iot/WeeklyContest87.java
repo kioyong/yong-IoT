@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class WeeklyContest87 {
@@ -259,12 +260,12 @@ public class WeeklyContest87 {
 
     @Test
     public void test5() {
-        int[] nums = new int[]{3,2,2,3};
+        int[] nums = {3, 2, 2, 3};
         int i = removeElement(nums, 3);
     }
 
     public int removeElement(int[] nums, int val) {
-        if (nums.length==0) return 0;
+        if (nums.length == 0) return 0;
         int res = nums.length;
         int count = 0;
         for (int i = 0; i < res; i++) {
@@ -277,5 +278,7 @@ public class WeeklyContest87 {
         return res - count;
 
     }
+
+
 }
 

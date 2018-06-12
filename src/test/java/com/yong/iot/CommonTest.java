@@ -8,7 +8,7 @@ import javax.validation.constraints.AssertTrue;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -63,39 +63,39 @@ public class CommonTest {
     //寻找回文数
     //    https://leetcode-cn.com/problems/find-the-closest-palindrome/description/
     private String nearestPalindromic(String n) {
-        if (Long.valueOf(n)<11) {
-        return String.valueOf(Long.valueOf(n) - 1);
-    }
+        if (Long.valueOf(n) < 11) {
+            return String.valueOf(Long.valueOf(n) - 1);
+        }
         if (n.equals("11")) {
-        return "9";
-    }
-    int i = (n.length() + 1) / 2;
-    int j = (n.length()) % 2;
-    String b = n.substring(0, i);
-    String r1 = getStr(b, j);
-    String b1;
+            return "9";
+        }
+        int i = (n.length() + 1) / 2;
+        int j = (n.length()) % 2;
+        String b = n.substring(0, i);
+        String r1 = getStr(b, j);
+        String b1;
         if (r1.compareTo(n) > 0) {
-        b1 = String.valueOf(Long.valueOf(b) - 1);
-        j = j + (b.length() - b1.length());
-        b1 = b1.concat(b1.substring(0,b.length()-b1.length()));
-    } else if (r1.compareTo(n) < 0) {
-        b1 = String.valueOf(Long.valueOf(b) + 1);
-        j = j - (b1.length() - b.length());
-    } else {
-        b1 = String.valueOf(Long.valueOf(b) + 1);
-        int j1 = j + (b1.length() - b.length());
-        r1 = getStr(b1,j1);
-        b1 = String.valueOf(Long.valueOf(b) - 1);
-        j = j + (b.length() - b1.length());
-        b1 = b1.concat(b1.substring(0,b.length()-b1.length()));
-    }
-    String r2 = getStr(b1, j);
+            b1 = String.valueOf(Long.valueOf(b) - 1);
+            j = j + (b.length() - b1.length());
+            b1 = b1.concat(b1.substring(0, b.length() - b1.length()));
+        } else if (r1.compareTo(n) < 0) {
+            b1 = String.valueOf(Long.valueOf(b) + 1);
+            j = j - (b1.length() - b.length());
+        } else {
+            b1 = String.valueOf(Long.valueOf(b) + 1);
+            int j1 = j + (b1.length() - b.length());
+            r1 = getStr(b1, j1);
+            b1 = String.valueOf(Long.valueOf(b) - 1);
+            j = j + (b.length() - b1.length());
+            b1 = b1.concat(b1.substring(0, b.length() - b1.length()));
+        }
+        String r2 = getStr(b1, j);
         if (compareToValue(r1, r2, n)) {
-        return r2;
-    } else {
-        return r1;
+            return r2;
+        } else {
+            return r1;
+        }
     }
-}
 
     public String nearestPalindromic1(String n) {
         int order = (int) Math.pow(10, n.length() / 2);
@@ -155,7 +155,7 @@ public class CommonTest {
         long l1 = Long.valueOf("12345678987654321");
         long l2 = Long.valueOf("12345678987654320");
         long l = l1 - l2;
-        log.debug("s1 = {},l={}",s1,l);
+        log.debug("s1 = {},l={}", s1, l);
 
     }
 
@@ -178,5 +178,60 @@ public class CommonTest {
         assertEquals(t3, "99");
         assertEquals(t4, "999");
         assertEquals(t5, "1001");
+    }
+
+    @Test
+    public void test10() {
+        int i = firstBadVersion(10);
+        log.debug("result == {}", i);
+
+    }
+
+    public int firstBadVersion(int n) {
+        int max = n;
+        int min = 0;
+        int temp = n / 2;
+        while ((max - min) != 1) {
+            if (isBadVersion(temp)) {
+                max = temp;
+            } else {
+                min = temp;
+            }
+            temp = (max - min) / 2 + min;
+        }
+        return max;
+    }
+
+    boolean isBadVersion(int version) {
+        return version == 8;
+    }
+
+    @Test
+    public void test11() {
+        int[] nums1 = new int[]{1, 2, 2, 1};
+        int[] nums2 = new int[]{1, 2, 2, 2, 1};
+        int[] intersect = intersect(nums1, nums2);
+        log.debug("result = {}", intersect);
+    }
+
+    public int[] intersect(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int[] res = new int[nums1.length > nums2.length ? nums2.length : nums1.length];
+        int n = 0;
+        int j = 0;
+        for (int i = 0; i < nums1.length && j < nums2.length; i++) {
+            if (nums1[i] > nums2[j]) {
+                i--;
+                j++;
+            } else if (nums1[i] == nums2[j]) {
+                res[n] = nums1[i];
+                n++;
+                j++;
+            }
+        }
+        int[] realRes = new int[n];
+        System.arraycopy(res, 0, realRes, 0, n);
+        return realRes;
     }
 }
