@@ -1,10 +1,12 @@
 package com.yong.iot;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class TraversalTest {
 
     @Test
@@ -65,8 +67,8 @@ public class TraversalTest {
         if (root == null) return;
         list.add(root.val);
         List<Integer> subList = new ArrayList<>();
-        levelOrder(root.left,subList );
-        levelOrder(root.right,subList );
+        levelOrder(root.left, subList);
+        levelOrder(root.right, subList);
 
     }
 
@@ -79,6 +81,42 @@ public class TraversalTest {
         TreeNode(int x) {
             val = x;
         }
+    }
+
+
+    public String reverseString(String s) {
+        char[] array = s.toCharArray();
+        int length = array.length;
+        int pair = length / 2;
+        char temp;
+        for (int i = 0; i < pair; i++) {
+            temp = array[length - i - 1];
+            array[length - i - 1] = array[i];
+            array[i] = temp;
+        }
+        return new String(array);
+    }
+
+    @Test
+    public void test1() {
+        String test = "abcdefg";
+        String s = reverseStr(test, 8);
+        log.debug("result = {}", s);
+    }
+
+    public String reverseStr(String s, int k) {
+        char[] array = s.toCharArray();
+        char temp;
+        for (int i = 0; i < array.length; i = i + 2 * k) {
+            int length = Math.min(array.length, i + k);
+            for (int j = i; j < i + ((length - i) / 2); j++) {
+                int n = Math.min(array.length - 1 + i - j, 2 * i + k - j - 1);
+                temp = array[n];
+                array[n] = array[j];
+                array[j] = temp;
+            }
+        }
+        return new String(array);
     }
 
 }
