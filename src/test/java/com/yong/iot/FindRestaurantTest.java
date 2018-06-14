@@ -129,4 +129,35 @@ public class FindRestaurantTest {
         }
     }
 
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        for (int i = 0; i < n / 2; i++) {
+            for (int j = i; j < n - i - 1; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[n - j - 1][i];
+                matrix[n - j - 1][i] = matrix[n - i - 1][n - j - 1];
+                matrix[n - i - 1][n - j - 1] = matrix[j][n - i - 1];
+                matrix[j][n - i - 1] = temp;
+            }
+        }
+    }
+
+    @Test
+    public void test1() {
+        String hello = reverseString("hello");
+        log.debug("result = {}", hello);
+    }
+
+    public String reverseString(String s) {
+        char[] chars = s.toCharArray();
+        int n = chars.length - 1;
+        for (int i = 0; i < chars.length / 2; i++) {
+            char temp = chars[i];
+            chars[i] = chars[n - i];
+            chars[n - i] = temp;
+
+        }
+        return new String(chars);
+    }
+
 }
