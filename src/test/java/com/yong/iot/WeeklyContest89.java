@@ -53,98 +53,137 @@ public class WeeklyContest89 {
 //    "abcdefabcdefabcdef"
 //        "acdbfeffabacbecedd"
 
-
     @Test
     public void test3() {
-//        int i = kSimilarity("abcdefabcdefabcdef", "acccafdeaddbbefbef");//8
-        int i = kSimilarity("abcdefabcdefabcdef", "acdbfeffabacbecedd");//10
+        int i = kSimilarity("abcdefabcdefabcdef", "acccafdeaddbbefbef");//8
+        log.debug("result = {}", i);
+        i = kSimilarity("abcdefabcdefabcdef", "acdbfeffabacbecedd");//10
+        log.debug("result = {}", i);
+        i = kSimilarity("ccfafcdaddefeebbaccb", "dcacafeeecbafddbccfb");//10
+        i = kSimilarity("ab", "ba");//10
         log.debug("result = {}", i);
     }
 
-    public int kSimilarity(String A, String B) {
+    public int kSimilarity1(String A, String B) {
         int res = 0;
-        boolean[] flag = new boolean[A.length()];
+        Queue<Integer> q = new LinkedList<>();
+        boolean[] f = new boolean[A.length()];
         for (int i = 0; i < A.length(); i++) {
+            if (f[i]) continue;
             if (A.charAt(i) == B.charAt(i)) {
-                flag[i] = true;
+                f[i] = true;
                 continue;
             }
-            if (flag[i]) continue;
-            for (int j = 0; j < A.length(); j++) {
-                if (flag[j]) continue;
-                if (A.charAt(i) == B.charAt(j)
-                    && A.charAt(j) == B.charAt(i)
-                    && i != j
-                    && !flag[i] && !flag[j]
-                    ) {
-                    flag[i] = true;
-                    flag[j] = true;
+            for (int j = i; j < A.length(); j++) {
+                if (f[j]) continue;
+                if (A.charAt(i) == B.charAt(j) && A.charAt(j) == B.charAt(i)) {
+                    f[i] = f[j] = true;
                     res++;
+                    log.debug("[{},{}]", i, j);
+                    break;
                 }
             }
         }
-        for (int i = 0; i < A.length(); i++) {
-            if (flag[i]) continue;
-            List<List<Integer>> allList = new ArrayList<>();
-            List<Integer> temp = new ArrayList<>();
-            temp.add(i);
-            getMinList(A, B, allList, A.charAt(i), B.charAt(i), temp, flag);
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < f.length; i++) {
+            if (!f[i]) sb.append(A.charAt(i));
+        }
+
+        while (!q.isEmpty()) {
+            List<List<Integer>> steps = new ArrayList<>();
+            List<Integer> step = new ArrayList<>();
+            Integer i = q.poll();
+            step.add(i);
+            getVis(A, B, steps, A.charAt(i), B.charAt(i), step, q);
             int min = Integer.MAX_VALUE;
-            List<Integer> finalList = new ArrayList<>();
-            for (List<Integer> list : allList) {
-                if (list.size() == min) {
-                    for (int j = 0; j < list.size(); j++) {
-                        if (list.get(j) != finalList.get(j)) {
-                            char a = B.charAt(list.get(j));
-                            char b = B.charAt(finalList.get(j));
-                            int aa = 0;
-                            int bb = 0;
-                            for (int z = 0; z < B.length(); z++) {
-                                if (flag[z]) continue;
-                                if (B.charAt(z) == a) aa++;
-                                if (B.charAt(z) == b) bb++;
-                            }
-                            finalList = aa > bb ? finalList : list;
-                            break;
-                        }
-                    }
-                }
+            int count = 0;
+            for (List<Integer> list : steps) {
                 if (list.size() < min) {
-                    finalList = list;
+                    step = list;
                     min = list.size();
+                    count = 1;
+                } else if (list.size() == min) {
+                    count++;
                 }
             }
-            log.debug("{}",finalList);
-            for (int x : finalList) {
-                flag[x] = true;
+            if (count > 1 && steps.size() != count) {
+                q.offer(i);
+                continue;
             }
-            int count = finalList.size() == 0 ? 0 : finalList.size() - 1;
-            res = res + count;
+            log.debug("{}", step);
+            q.removeAll(step);
+            res = res + step.size() - 1;
         }
         return res;
     }
 
-    public void getMinList(String A, String B, List<List<Integer>> allList, char start, char temp, List<Integer> list, boolean[] flag) {
-        for (int i = 0; i < A.length(); i++) {
-            if (flag[i] || list.contains(i)) continue;
-            if (A.charAt(i) == temp && B.charAt(i) == start) {
-                List<Integer> tempList = new ArrayList<>();
-                for (int j = 0; j < list.size(); j++) {
-                    tempList.add(list.get(j));
+    public void getVis(String A, String B, List<List<Integer>> vis, char start, char end, List<Integer> list, Queue<Integer> flag) {
+        List<Character> q = new ArrayList<>();
+        for (int i : flag) {
+            if (list.contains(i) || q.contains(B.charAt(i))) continue;
+            if (A.charAt(i) == end) {
+                List<Integer> t = new ArrayList<>(list);
+                t.add(i);
+                if (B.charAt(i) == start) {
+                    vis.add(t);
+                } else {
+                    q.add(B.charAt(i));
+                    getVis(A, B, vis, start, B.charAt(i), t, flag);
                 }
-                tempList.add(i);
-                allList.add(tempList);
-            } else if (A.charAt(i) == temp && B.charAt(i) != start) {
-                List<Integer> tempList = new ArrayList<>();
-                for (int j = 0; j < list.size(); j++) {
-                    tempList.add(list.get(j));
-                }
-                tempList.add(i);
-                getMinList(A, B, allList, start, B.charAt(i), tempList, flag);
+
             }
         }
     }
 
+
+    public int kSimilarity(String A, String B) {
+        Set<String> vis = new HashSet<>();
+        Queue<String> q = new LinkedList<>();
+        int res = 0;
+        boolean[] f = new boolean[A.length()];
+        for (int i = 0; i < A.length(); i++) {
+            if (f[i]) continue;
+            if (A.charAt(i) == B.charAt(i)) {
+                f[i] = true;
+                continue;
+            }
+            for (int j = i; j < A.length(); j++) {
+                if (f[j]) continue;
+                if (A.charAt(i) == B.charAt(j) && A.charAt(j) == B.charAt(i)) {
+                    f[i] = f[j] = true;
+                    A = swap(A, i, j);
+                    res++;
+                    break;
+                }
+            }
+        }
+        if (A.equals(B)) return res;
+        q.add(A);
+        vis.add(A);
+        while (!q.isEmpty()) {
+            res++;
+            for (int sz = q.size(); sz > 0; sz--) {
+                String s = q.poll();
+                int i = 0;
+                while (s.charAt(i) == B.charAt(i)) i++;
+                for (int j = i + 1; j < s.length(); j++) {
+                    if (s.charAt(j) == B.charAt(j) || s.charAt(i) != B.charAt(j)) continue;
+                    String temp = swap(s, i, j);
+                    if (temp.equals(B)) return res;
+                    if (vis.add(temp)) q.add(temp);
+                }
+            }
+        }
+        return res;
+    }
+
+    public String swap(String s, int i, int j) {
+        char[] ca = s.toCharArray();
+        char temp = ca[i];
+        ca[i] = ca[j];
+        ca[j] = temp;
+        return new String(ca);
+    }
 
 //    class ExamRoom {
 //

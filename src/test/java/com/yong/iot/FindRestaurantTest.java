@@ -3,9 +3,7 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class FindRestaurantTest {
@@ -158,6 +156,100 @@ public class FindRestaurantTest {
 
         }
         return new String(chars);
+    }
+
+    @Test
+    public void test3() {
+        int leetcode = firstUniqChar("leetcodel");
+        log.debug("result = {}", leetcode);
+    }
+
+    public int firstUniqChar(String s) {
+        char[] chars = s.toCharArray();
+        LinkedHashMap<Character, Integer> map = new LinkedHashMap<>();
+        for (int i = 0; i < chars.length; i++) {
+            if (map.getOrDefault(chars[i], -1) != -1) {
+                map.put(chars[i], -2);
+            } else {
+                map.put(chars[i], i);
+            }
+        }
+        for (Character c : map.keySet()) {
+            Integer val = map.get(c);
+            if (val != -2) return val;
+        }
+        return -1;
+    }
+
+
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) return false;
+        char[] S = s.toCharArray();
+        char[] T = t.toCharArray();
+        Arrays.sort(S);
+        Arrays.sort(T);
+        for (int i = 0; i < S.length; i++) {
+            if (S[i] != T[i]) return false;
+        }
+        return true;
+    }
+
+    @Test
+    public void test7() {
+        char[] C = new char[]{'a', 'z', 'A', 'Z', '0', '9', '-'};
+        for (char c : C) {
+            log.debug("char = {}", (int) c);
+        }
+    }
+
+    @Test
+    public void test8() {
+        boolean raceacar = isPalindrome("A man, a plan, a canal: Panama");
+        log.debug("result = {}", raceacar);
+    }
+
+    public boolean isPalindrome(String s) {
+        char[] chars = s.toCharArray();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < chars.length; i++) {
+            if ((chars[i] >= 'a' && chars[i] <= 'z')
+                || (chars[i] >= 'A' && chars[i] <= 'Z')
+                || (chars[i] >= '0' && chars[i] <= '9'))
+                sb.append(chars[i]);
+        }
+        String s1 = new String(sb).toLowerCase();
+        int n = s1.length();
+        for (int i = 0; i < n / 2; i++) {
+            if (s1.charAt(i) != s1.charAt(n - i - 1)) return false;
+        }
+        return true;
+    }
+
+//    public int myAtoi(String str) {
+//        StringBuffer sb = new StringBuffer();
+//        boolean flag = false;
+//        for (int i = 0; i < str.length(); i++) {
+//            if (flag) {
+//
+//            } else {
+//
+//            }
+//
+//        }
+//    }
+
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int end = m + n - 1;
+        while (n >= 1) {
+            if (m >= 1 && nums1[m - 1] > nums2[n - 1]) {
+                nums1[end] = nums1[m - 1];
+                m--;
+            } else {
+                nums1[end] = nums2[n - 1];
+                n--;
+            }
+            end--;
+        }
     }
 
 }
