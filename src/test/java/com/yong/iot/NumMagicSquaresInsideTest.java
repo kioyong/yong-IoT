@@ -282,4 +282,15 @@ public class NumMagicSquaresInsideTest {
             return null;
         }
     }
+
+    @Test
+    public void test7(){
+        int x=3;
+        int y=2;
+        int i1 = x / y;
+        double v = x / (double) y;
+        double v1 = (double) x / y;
+        log.debug("result = {},{},{}",i1,v,v1);
+
+    }
 }

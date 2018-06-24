@@ -94,7 +94,7 @@ public class ListTest {
         TreeNode t1 = new TreeNode(-2);
         t1.setLeft(m1);
         t1.setRight(m2);
-        boolean symmetric = hasPathSum(t1,-5);
+        boolean symmetric = hasPathSum(t1, -5);
         log.debug("result = {}", symmetric);
 
     }
@@ -170,5 +170,28 @@ public class ListTest {
         return hasPathSum(root.left, res, sum) || hasPathSum(root.right, res, sum);
     }
 
+    @Test
+    public void test() {
+        int[] x = new int[]{1, 2, 3};
+        int[] y = new int[]{4, 5, 6};
+        int[][] list = new int[x.length][];
+        for (int i = 0; i < x.length; i++) {
+            list[i] = new int[]{x[i], y[i]};
+        }
+        for (int i = 0; i < list.length; i++) {
+            log.debug("x={}", list[i][0]);
+            log.debug("y={}", list[i][1]);
+        }
+        Arrays.sort(list, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[1] * o2[0] - o1[0] * o2[1];
+            }
+        });
+        for (int[] aList : list) {
+            log.debug("x={}", aList[0]);
+            log.debug("y={}", aList[1]);
+        }
+    }
 
 }
