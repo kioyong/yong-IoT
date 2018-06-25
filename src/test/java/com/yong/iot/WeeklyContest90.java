@@ -62,12 +62,7 @@ public class WeeklyContest90 {
         for (int i = 0; i < quality.length; i++) {
             ws[i] = new int[]{quality[i], wage[i]};
         }
-        Arrays.sort(ws, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[1] * o2[0] - o1[0] * o2[1];
-            }
-        });
+        Arrays.sort(ws, (o1, o2) -> o1[1] * o2[0] - o1[0] * o2[1]);
         PriorityQueue<Integer> pq = new PriorityQueue<>();
         int sum = 0;
         double min = Double.MAX_VALUE;
