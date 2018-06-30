@@ -196,7 +196,7 @@ public class NumMagicSquaresInsideTest {
     }
 
     public List<Integer> splitIntoFibonacci(String S) {
-        if(S.substring(0, 1).equals("0")) return new ArrayList<>();
+        if (S.substring(0, 1).equals("0")) return new ArrayList<>();
         List<Integer> result = new ArrayList<>();
         for (int a = 1; a < S.length() / 2 + 1; a++) {
             for (int b = a + 1; b < (S.length() + a) / 2 + 1; b++) {
@@ -284,13 +284,58 @@ public class NumMagicSquaresInsideTest {
     }
 
     @Test
-    public void test7(){
-        int x=3;
-        int y=2;
+    public void test7() {
+        int x = 3;
+        int y = 2;
         int i1 = x / y;
         double v = x / (double) y;
         double v1 = (double) x / y;
-        log.debug("result = {},{},{}",i1,v,v1);
+        log.debug("result = {},{},{}", i1, v, v1);
 
     }
+
+    @Test
+    public void test8() {
+        int i = countPrimes(999983);
+        log.debug("i = {}", i);
+    }
+
+    public int countPrimes(int n) {
+        boolean[] notPrime = new boolean[n];
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (notPrime[i] == false) {
+                count++;
+                for (int j = 2; i * j < n; j++) {
+                    notPrime[i * j] = true;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    @Test
+    public void test9() {
+//        boolean powerOfThree = isPowerOfThree(1162261467);
+//        log.debug("is true {}", powerOfThree);
+        log.debug("Math.pow(3,19) = {}",Math.pow(3,19));
+    }
+
+    public boolean isPowerOfThree(int n) {
+        return (n > 0 && Math.pow(3,19) % n == 0);
+//        int count = 0;
+//        if (n == 0) return false;
+//        while (n != 1) {
+//            if (n % 3 == 0) {
+//                count++;
+//                n = n / 3;
+//            } else {
+//                return false;
+//            }
+//        }
+//        log.debug("count = {}",count);
+//        return true;
+    }
+
 }
