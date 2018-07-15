@@ -1,14 +1,11 @@
 package com.yong.iot;
 
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.PriorityQueue;
 
 @Slf4j
 public class WeeklyContest91 {
@@ -48,17 +45,9 @@ public class WeeklyContest91 {
 
     @Test
     public void test1() {
-        long i =1l;
-        long l = i <<46;
-        log.debug("l={}",l);
-    }
-
-    public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
-        List<Integer> res = new ArrayList<>();
-        int level = distanceK(root, target.val);
-        int actual = K - level;
-        findK(root, target.val, actual, K, res);
-        return res;
+        long i = 1l;
+        long l = i << 46;
+        log.debug("l={}", l);
     }
 
     public void findK(TreeNode root, int val, int actual, int K, List<Integer> list) {
@@ -163,7 +152,8 @@ public class WeeklyContest91 {
     public void test3() {
 
     }
-//
+
+    //
 //    public int shortestSubarray(int[] A, int K) {
 //        PriorityQueue<Integer> pq = new PriorityQueue<>();
 //        Arrays.sort(A);
@@ -179,4 +169,38 @@ public class WeeklyContest91 {
 //
 //        }
 //    }
+//    public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
+//        List<Integer> list = new ArrayList<>();
+//        int i = findMax(root, target.val);
+//        if (i == -1) return list;
+//        return null;
+//    }
+
+    public int findMax(TreeNode root) {
+        if (root == null) return 0;
+        int l = findMax(root.left);
+        int r = findMax(root.right);
+        return l > r ? (l + 1) : (r + 1);
+    }
+
+    public void levelOrderBottom(TreeNode root, List<List<Integer>> res, int level) {
+        if (root == null) return;
+        res.get(level).add(root.val);
+        level--;
+        levelOrderBottom(root.left, res, level);
+        levelOrderBottom(root.right, res, level);
+    }
+
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        int max = findMax(root);
+        for (int i = 0; i < max; i++) {
+            List<Integer> list = new ArrayList<>();
+            res.add(list);
+        }
+        max--;
+        levelOrderBottom(root,res, max);
+        return res;
+    }
+
 }
