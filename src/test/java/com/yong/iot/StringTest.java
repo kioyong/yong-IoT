@@ -1,9 +1,11 @@
 package com.yong.iot;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.*;
 
+@Slf4j
 public class StringTest {
 
     public int strStr(String haystack, String needle) {
@@ -132,5 +134,42 @@ public class StringTest {
             else res.add(String.valueOf(i));
         }
         return res;
+    }
+
+    @Test
+    public void test7() {
+        String s = "123";
+        int i = s.lastIndexOf("\t");
+        log.debug("i={},length={}", i, s.length());
+    }
+
+
+    @Test
+    public void test6() {
+        String s = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
+        int i = lengthLongestPath(s);
+        log.debug("i={}", i);
+    }
+
+
+    public int lengthLongestPath(String input) {
+        String[] split = input.split("\n");
+        int max = 0;
+        for (int i = 0; i < split.length; i++) {
+            if (split[i].contains(".")) {
+                int z = split[i].lastIndexOf("\t");
+                int temp = split[i].length() - z - 1;
+                int j = i;
+                while (j > 0) {
+                    j--;
+                    if (split[j].lastIndexOf("\t") == z - 1) {
+                        temp += split[j].length() - z + 1;
+                        z--;
+                    }
+                }
+                max = Math.max(max, temp);
+            }
+        }
+        return max;
     }
 }
