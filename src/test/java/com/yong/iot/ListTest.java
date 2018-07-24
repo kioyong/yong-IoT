@@ -211,4 +211,45 @@ public class ListTest {
         }
     }
 
+    @Test
+    public void test8() {
+        List<String> list = new ArrayList<>();
+        list.add("5");
+        list.add("1");
+        list.add("3");
+        list.add("3");
+        list.add("2");
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == "3") {
+                list.remove(i);
+                i--;
+            }
+        }
+        Collections.sort(list);
+        for (String s : list) {
+            log.debug("{}", s);
+        }
+
+    }
+
+    public int count() {
+        List<String> list = new ArrayList<>();
+        if (list.size() == 1) return 1;
+        else return 2;
+
+    }
+
+    @Test
+    public void test9() {
+        int add = add(9);
+        log.debug("result = {}",add);
+        int [] a = new int[2];
+    }
+
+    public int add(int i) {
+        int res = 0;
+        if (i <= 2) res = 1;
+        else res += add(i - 1) + add(i - 2);
+        return res;
+    }
 }

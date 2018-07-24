@@ -14,16 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class Mark extends BaseEntity implements Comparable<Mark>{
-//    @Id
+public class Mark extends BaseEntity implements Comparable<Mark> {
+    //    @Id
     private String id;
-    private String title,type;
-    private boolean isActive,isLocked;
+    private String title, type;
+    private boolean isActive, isLocked;
     private List<Item> items;
     private Item item;
     private Integer count;
 
-    public static Mark updateMark(Mark oldRecord, Mark newRecord){
+    public static Mark updateMark(Mark oldRecord, Mark newRecord) {
         oldRecord.setActive(newRecord.isActive());
         oldRecord.setItems(newRecord.getItems());
         oldRecord.setItem(newRecord.getItem());
@@ -34,6 +34,7 @@ public class Mark extends BaseEntity implements Comparable<Mark>{
         return oldRecord;
     }
 
+    @Override
     public int compareTo(Mark o) {
         return this.getCreatedDate().compareTo(o.getCreatedDate());
     }
