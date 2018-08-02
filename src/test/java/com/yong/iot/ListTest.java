@@ -242,8 +242,8 @@ public class ListTest {
     @Test
     public void test9() {
         int add = add(9);
-        log.debug("result = {}",add);
-        int [] a = new int[2];
+        log.debug("result = {}", add);
+        int[] a = new int[2];
     }
 
     public int add(int i) {
@@ -251,5 +251,21 @@ public class ListTest {
         if (i <= 2) res = 1;
         else res += add(i - 1) + add(i - 2);
         return res;
+    }
+
+
+
+    public int minPathSum(int[][] grid) {
+        int maxm = grid.length - 1;
+        int maxn = grid[0].length - 1;
+        return minPathSum(grid, 0, 0, maxm, maxn, 0, true);
+    }
+
+    public int minPathSum(int[][] grid, int m, int n, int maxm, int maxn, int sum, boolean flag) {
+        sum += grid[m][n];
+        if (m == maxm && n == maxn) return sum;
+        if ((flag && m < maxm) || n==maxn) return minPathSum(grid, m + 1, n, maxm, maxn, sum, true);
+        if (n < maxn ) return minPathSum(grid, m, n + 1, maxm, maxn, sum, false);
+        return Math.min(minPathSum(grid, m + 1, n, maxm, maxn, sum, true), minPathSum(grid, m, n + 1, maxm, maxn, sum, false));
     }
 }

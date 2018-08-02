@@ -3,7 +3,11 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.text.DecimalFormat;
 import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @Slf4j
 public class StringTest {
@@ -149,6 +153,11 @@ public class StringTest {
         String s = "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext";
         int i = lengthLongestPath(s);
         log.debug("i={}", i);
+
+//        String format = "$1" +s.replaceAll("\\d","*").substring(1,s.length()-1)+ "$3";
+//        String ss = s.replaceAll("(\\d{1})([\\d\\s]+)(\\d{1})",format);
+
+
     }
 
 
@@ -171,5 +180,50 @@ public class StringTest {
             }
         }
         return max;
+    }
+
+    @Test
+    public void test8() {
+        DecimalFormat df = new DecimalFormat("#,###");
+        List<Double> list = new ArrayList<>();
+        list.add(100d);
+        list.add(1000d);
+        list.add(10000d);
+        list.add(1000.00d);
+        list.add(1000.01d);
+        list.add(1234567d);
+        list.add(123456789d);
+        list.add(123456789.6666666666666d);
+        list.add(12345.53d);
+        list.add(23d);
+        list.add(3.2d);
+        list.add(456235.54d);
+        for (Double d : list) {
+            String format = df.format(d);
+            log.debug("format = {}", format);
+        }
+
+    }
+
+    @Test
+    public void test9() {
+        String s = "123456";
+        String substring = s.substring(1, 3).concat(s.substring(4, 6));
+        log.debug("{},{}", s.length(), substring);
+    }
+
+    @Test
+    public void test10() {
+        String s = "123456";
+        s = String.format("%08d", Integer.valueOf(s));
+        log.debug("s = {}", s);
+    }
+
+    @Test
+    public void test11() {
+        String s = "";
+        assertTrue(s.isEmpty());
+        assertEquals("",s);
+//        assertTrue(s!=null && s.isEmpty());
     }
 }

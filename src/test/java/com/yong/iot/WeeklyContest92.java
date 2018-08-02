@@ -187,8 +187,8 @@ public class WeeklyContest92 {
         while (!q.isEmpty()) {
             int size = q.size();
             while (size-- > 0) {
-                Employee emp= q.poll();
-                sum+=emp.importance;
+                Employee emp = q.poll();
+                sum += emp.importance;
                 List<Integer> subordinates = emp.subordinates;
                 for(Integer i: subordinates){
                     q.offer(map.get(i));
