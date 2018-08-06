@@ -104,74 +104,48 @@ public class WeeklyContest93 {
     @Test
     public void test3() {
 
-        int i = minRefuelStops(1000, 10, new int[][]{{3,133},{5,418},{11,202},{12,381},{29,14},{43,423},{56,299},{60,353},{64,267},{66,224},{68,248},{76,106},{78,121},{81,410},{92,486},{105,311},{107,354},{111,461},{119,481},{134,328},{142,485},{151,139},{178,318},{179,339},{184,268},{223,344},{224,258},{232,484},{262,487},{287,272},{288,444},{298,174},{299,409},{302,80},{305,240},{308,199},{324,298},{335,104},{345,349},{352,359},{390,249},{391,113},{395,380},{407,411},{408,302},{410,463},{415,43},{432,46},{441,197},{447,401},{452,157},{456,306},{459,303},{469,155},{471,260},{482,255},{489,312},{491,455},{494,243},{499,120},{506,228},{563,103},{568,251},{569,114},{592,33},{600,293},{609,21},{627,279},{629,260},{635,210},{649,56},{663,403},{665,124},{695,200},{708,209},{712,210},{719,216},{743,396},{744,62},{746,180},{777,159},{778,346},{779,450},{782,211},{796,220},{837,130},{847,238},{853,92},{857,353},{866,238},{885,436},{887,278},{906,11},{912,387},{920,241},{939,363},{946,92},{955,465},{969,245},{980,308}});
+        int i = minRefuelStops(1000000, 70768, new int[][]{{12575,171159},{81909,101253},{163732,164401},{190025,65493},{442889,31147},{481202,166081},{586028,206379},{591952,52748},{595013,9163},{611883,217156}});
         log.debug("i={}", i);
     }
 
     public int minRefuelStops(int target, int startFuel, int[][] stations) {
-
-        if(target==1000000000&&startFuel==145267354&&stations[0][0]==32131797)return 8;
-        if(target==1000000000&&startFuel==145267354&&stations[0][0]==5510987)return 7;
-        if(target==1000&&startFuel==10&&stations[0][0]==3 &&stations[0][1]==133)return 3;
-        if(target==1000&&startFuel==10&&stations[0][0]==7 &&stations[0][1]==217)return 4;
-        if(target==1000&&startFuel==10&&stations[0][0]==1 &&stations[0][1]==209)return 5;
-        if(stations[0][0]==1&&stations[0][1]==328)return 7;
-        Car s = new Car(target, startFuel, 0);
-        Queue<Car> q = new LinkedList<>();
-        q.offer(s);
-        List<Car> list = new ArrayList<>();
-        int i = 0;
-        while (!q.isEmpty() && i <= stations.length) {
-            int size = q.size();
-            while (size-- > 0) {
-                Car car = q.poll();
-                if (car.startFuel >= target) list.add(car);
-                if (i >= stations.length) break;
-                int i1 = stations[i][0];
-                int i2 = stations[i][1];
-                if (car.startFuel >= i1) {
-                    Car c1 = new Car(target, car.startFuel + i2, car.count + 1);
-                    if (c1.startFuel >= target) {
-                        list.add(c1);
-                    } else {
-                        q.offer(c1);
-                    }
-                    q.offer(car);
-                }
-
+        if (startFuel >= target) return 0;
+        Queue<Integer> pq = new PriorityQueue<>();
+        int p = 0;
+        int ret = 0;
+        while (true) {
+            while (p < stations.length && stations[p][0] <= startFuel) {
+                pq.offer(-stations[p][1]);
+                p++;
             }
-            i++;
+            if (pq.size() == 0) return -1;
+            startFuel -= pq.poll();
+            ret++;
+            if (startFuel >= target) return ret;
         }
-        if (list.size() == 0) return -1;
-        int res = Integer.MAX_VALUE;
-        for (int j = 0; j < list.size(); j++) {
-            res = Math.min(res, list.get(j).count);
-        }
-        return res;
     }
 
     @Test
-    public void arraysEquarlTest(){
-        int[] a = new int[]{1,3,5,7};
-        int[] b = new int[]{3,1,7,5};
-        Assert.assertFalse(a==b);
-        Assert.assertNotEquals(a,b);
-        Assert.assertFalse(Arrays.equals(a,b));
+    public void arraysEquarlTest() {
+        int[] a = new int[]{1, 3, 5, 7};
+        int[] b = new int[]{3, 1, 7, 5};
+        Assert.assertFalse(a == b);
+        Assert.assertNotEquals(a, b);
+        Assert.assertFalse(Arrays.equals(a, b));
     }
 
     @Test
-    public void freqTest(){
+    public void freqTest() {
         String s = "12233454";
         char[] chars = s.toCharArray();
         Arrays.sort(chars);
-        log.debug("result = {}",chars);
+        log.debug("result = {}", chars);
     }
 
-    int[] freq(char[] s)
-    {
+    int[] freq(char[] s) {
         int[] f = new int[10];
-        for(char c : s){
-            f[c-'0']++;
+        for (char c : s) {
+            f[c - '0']++;
         }
         return f;
     }
