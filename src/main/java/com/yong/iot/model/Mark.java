@@ -1,9 +1,10 @@
 package com.yong.iot.model;
 
 import lombok.*;
-//import org.springframework.data.annotation.Id;
 
 import java.util.List;
+
+//import org.springframework.data.annotation.Id;
 
 /**
  * @acthor yong.a.liang
@@ -38,4 +39,5 @@ public class Mark extends BaseEntity implements Comparable<Mark> {
     public int compareTo(Mark o) {
         return this.getCreatedDate().compareTo(o.getCreatedDate());
     }
+
 }

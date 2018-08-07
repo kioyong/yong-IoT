@@ -1,5 +1,6 @@
 package com.yong.iot;
 
+import com.yong.iot.model.Mark;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -223,7 +224,61 @@ public class StringTest {
     public void test11() {
         String s = "";
         assertTrue(s.isEmpty());
-        assertEquals("",s);
+        assertEquals("", s);
 //        assertTrue(s!=null && s.isEmpty());
+    }
+
+    @Test
+    public void test12() {
+        List<Mark> list = new ArrayList<>();
+        list.add(Mark.builder().id("1").title("test").build());
+        list.add(Mark.builder().id("2").title("abc").build());
+        list.add(Mark.builder().id("3").title("def").build());
+        list.add(Mark.builder().id("4").title("fdf").build());
+        list.add(Mark.builder().id("1").title("test").build());
+        Map<String, String> map = new HashMap<>();
+        for (Mark mark : list) {
+            map.put(mark.getId(), mark.getTitle());
+        }
+        log.debug("map = {}", map.toString());
+
+    }
+
+    @Test
+    public void test13() {
+//        String s = decodeAtIndex("ixm5xmgo78", 711);
+//        log.debug("s = {}", s);
+
+    }
+
+    public String decodeAtIndex(String S, int K) {
+        long[] list = new long[S.length() + 1];
+        char[] chars = new char[S.length()];
+        char t = 'a';
+        for (int i = 0; i < S.length(); i++) {
+            char c = S.charAt(i);
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+                t = c;
+                chars[i] = c;
+                list[i + 1] = list[i] + 1;
+            } else {
+                chars[i] = t;
+                list[i + 1] = list[i] * (c - '0');
+            }
+
+        }
+        int i = list.length - 1;
+        long l = K;
+        while (l > 0) {
+            if (l >= list[i]) {
+                l = l % list[i];
+                if (l == 0) {
+                    return chars[i - 1] + "";
+                }
+            }
+            i--;
+
+        }
+        return "";
     }
 }
