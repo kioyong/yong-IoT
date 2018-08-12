@@ -72,10 +72,11 @@ public class MarkHandler {
      * **/
     public Mono<ServerResponse> findMaxItemByMarkId(final ServerRequest request) {
         String id = request.pathVariable("id");
-        return ok().body(
-            repository.findById(id).map(Mark::getItem).map(Item::getValue)
-                .defaultIfEmpty(0).onErrorReturn(0)
-            ,Integer.class);
+        return Mono.empty();
+//        return ok().body(
+//            repository.findById(id).map(Mark::getItem).map(Item::getValue)
+//                .defaultIfEmpty(0).onErrorReturn(0)
+//            ,Integer.class);
     }
 
 
@@ -145,11 +146,12 @@ public class MarkHandler {
 //    }
 
     Flux<Mark> filterInactiveItems(Flux<Mark> marks) {
-        return marks.map(
-            t -> {
-                t.setItems(t.getItems().stream().filter(Item::isActive).collect(Collectors.toList()));
-                return t;
-            });
+//        return marks.map(
+//            t -> {
+//                t.setItems(t.getItems().stream().filter(Item::isActive).collect(Collectors.toList()));
+//                return t;
+//            });
+        return Flux.empty();
     }
 
     public Mono<ServerResponse> test1(final ServerRequest request) {

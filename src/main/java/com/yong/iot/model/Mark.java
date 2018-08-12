@@ -37,7 +37,8 @@ public class Mark extends BaseEntity implements Comparable<Mark> {
 
     @Override
     public int compareTo(Mark o) {
-        return this.getCreatedDate().compareTo(o.getCreatedDate());
+//        return this.getCreatedDate().compareTo(o.getCreatedDate());
+        return -1;
     }
 
 }
