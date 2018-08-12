@@ -14,12 +14,32 @@ public class WeeklyContest97 {
         log.debug("{}", strings);
     }
 
-    public String[] uncommonFromSentences(String A, String B) {
+    public List<String> uncommonFromSentencesList(String A, String B) {
+        Map<String, Integer> map = new TreeMap<>();
+        String[] a = A.split(" ");
+        String[] b = B.split(" ");
+        Set<String> set1 = new HashSet<>();
+        Set<String> set2 = new HashSet<>();
+        for (String x : a) {
+            if (set1.contains(x)) set2.add(x);
+            set1.add(x);
+        }
+        for (String x : b) {
+            if (set1.contains(x)) set2.add(x);
+            set1.add(x);
+        }
+        set1.removeAll(set2);
+        return new ArrayList<>(set1);
+    }
+
+    public List<String> uncommonFromSentencesList1(String A, String B) {
         Map<String, Integer> map = new TreeMap<>();
         String[] a = A.split(" ");
         String[] b = B.split(" ");
         for (String x : a) {
-            map.put(x, map.getOrDefault(x, 0) + 1);
+//            map.put(x, map.getOrDefault(x, 0) + 1);//两种使用方法
+            map.putIfAbsent(x, 0);
+            map.putIfAbsent(x, map.get(x) + 1);
         }
         for (String x : b) {
             map.put(x, map.getOrDefault(x, 0) + 1);
@@ -31,6 +51,12 @@ public class WeeklyContest97 {
                 list.add(s);
             }
         }
+        return list;
+    }
+
+    public String[] uncommonFromSentences(String A, String B) {
+        List<String> list = uncommonFromSentencesList1(A, B);
+//        List<String> list = uncommonFromSentencesList(A, B);
         String[] res = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             res[i] = list.get(i);

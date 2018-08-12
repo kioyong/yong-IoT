@@ -268,4 +268,53 @@ public class ListTest {
         if (n < maxn ) return minPathSum(grid, m, n + 1, maxm, maxn, sum, false);
         return Math.min(minPathSum(grid, m + 1, n, maxm, maxn, sum, true), minPathSum(grid, m, n + 1, maxm, maxn, sum, false));
     }
+
+    //交集测试
+    @Test
+    public void test4(){
+        List<String> list = new ArrayList<>();
+//        list.add("1");
+//        list.add("2");
+//        list.add("3");
+
+        List<String> p = new ArrayList<>();
+//        p.add("4");
+//        p.add("5");
+        List<String> t = new ArrayList<>(p);
+        boolean b = t.retainAll(list);
+        log.debug("{}",b);
+        log.debug("{}",p);
+        log.debug("{}",t);
+        List<String> test = new Vector<>();
+        List<String> test1 = new ArrayList<>();
+        List<String> test2= new LinkedList<>(); //queue
+        List<String> tes3= new Stack<>();
+
+    }
+
+    @Test
+    public void test6(){
+        List<Integer> list = new ArrayList<>();
+        list.add(null);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        log.debug("list = {}",list);
+
+        LinkedList<Integer> queue = new LinkedList<>();
+        queue.offer(1);
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(4);
+        queue.offer(3);
+        queue.offer(5);
+        log.debug("queue = {}",queue);
+        queue.poll();
+        log.debug("queue = {}",queue);
+        queue.getFirst();
+        log.debug("queue = {}",queue);
+        queue.pollLast();
+        log.debug("queue = {}",queue);
+    }
+
 }
