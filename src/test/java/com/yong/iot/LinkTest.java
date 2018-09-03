@@ -4,6 +4,11 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 @Slf4j
 public class LinkTest {
     class MyLinkedList {
@@ -112,6 +117,7 @@ public class LinkTest {
             }
         }
     }
+
     @Test
     public void test() {
         MyLinkedList list = new MyLinkedList();
@@ -121,5 +127,96 @@ public class LinkTest {
         list.deleteAtIndex(1);
         int i = list.get(1);
         log.debug("i = {}", i);
+    }
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null || head.next.next == null) return false;
+        ListNode f = head.next.next;
+        ListNode s = head.next;
+        while (true) {
+            if (f.equals(s)) return true;
+            if (f.next == null || f.next.next == null) return false;
+            f = f.next.next;
+            s = s.next;
+        }
+    }
+
+    @Test
+    public void test1() {
+        ListNode listNode = detectCycle(new ListNode(1));
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (fast == slow) {
+                ListNode slow2 = head;
+                1111111114
+                while (slow2 != slow) {
+                    slow = slow.next;
+                    slow2 = slow2.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode a = new ListNode(headA.val);
+        ListNode cur = headA;
+        while (true) {
+            if (cur.next == null) break;
+            ListNode temp = new ListNode(cur.next.val);
+            temp.next = a;
+            a = temp;
+            cur = cur.next;
+        }
+        ListNode b = new ListNode(headB.val);
+        cur = headB;
+        while (true) {
+            if (cur.next == null) break;
+            ListNode temp = new ListNode(cur.next.val);
+            temp.next = b;
+            b = temp;
+            cur = cur.next;
+        }
+        if (a != b) return null;
+        while (true) {
+            if (a.next == null || b.next == null) return null;
+            if (a.next != b.next) return a;
+            a = a.next;
+            b = b.next;
+        }
+    }
+
+    @Test
+    public void test3(){
+//        removeNthFromEnd()
+    }
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        int m = 0;
+        ListNode prev = head;
+        while (head != null) {
+            head = head.next;
+            if (++m > n) prev = prev.next;
+        }
+        prev.next = prev.next.next;
+        return prev;
     }
 }

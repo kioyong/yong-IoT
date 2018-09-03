@@ -9,7 +9,7 @@ import java.util.List;
 @Slf4j
 public class WeeklyContest95 {
 
-    public class ListNode {
+    class ListNode {
         int val;
         ListNode next;
 
