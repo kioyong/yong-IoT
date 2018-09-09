@@ -55,7 +55,7 @@ public class QueueTest {
     }
 
     @Test
-    public void test3(){
+    public void test3() {
         List<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
@@ -63,8 +63,25 @@ public class QueueTest {
         list.add(4);
         list.remove(1);
         list.remove(2);
-        log.debug("list = {},",list);
+        log.debug("list = {},", list);
 
     }
+
+//    class LRUCache {
+//
+//        Queue<Integer> q = new LinkedList<>();
+//
+//        public LRUCache(int capacity) {
+//
+//        }
+//
+//        public int get(int key) {
+//
+//        }
+//
+//        public void put(int key, int value) {
+//
+//        }
+//    }
 
 }
