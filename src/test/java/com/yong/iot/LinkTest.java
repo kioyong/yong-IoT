@@ -165,7 +165,6 @@ public class LinkTest {
 
             if (fast == slow) {
                 ListNode slow2 = head;
-                1111111114
                 while (slow2 != slow) {
                     slow = slow.next;
                     slow2 = slow2.next;
