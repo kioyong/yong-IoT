@@ -1,11 +1,13 @@
 package com.yong.iot;
 
-import com.yong.iot.model.Mark;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -228,21 +230,6 @@ public class StringTest {
 //        assertTrue(s!=null && s.isEmpty());
     }
 
-    @Test
-    public void test12() {
-        List<Mark> list = new ArrayList<>();
-        list.add(Mark.builder().id("1").title("test").build());
-        list.add(Mark.builder().id("2").title("abc").build());
-        list.add(Mark.builder().id("3").title("def").build());
-        list.add(Mark.builder().id("4").title("fdf").build());
-        list.add(Mark.builder().id("1").title("test").build());
-        Map<String, String> map = new HashMap<>();
-        for (Mark mark : list) {
-            map.put(mark.getId(), mark.getTitle());
-        }
-        log.debug("map = {}", map.toString());
-
-    }
 
     @Test
     public void test13() {

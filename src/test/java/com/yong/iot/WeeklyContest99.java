@@ -2,7 +2,6 @@ package com.yong.iot;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import sun.reflect.generics.tree.Tree;
 
 import java.util.*;
 
@@ -109,13 +108,13 @@ public class WeeklyContest99 {
         Set<String> set = new HashSet<>();
         for (String s : A) {
             char[] chars = s.toCharArray();
-            char[] t1 = new char[(chars.length+1)/2];
-            char[] t2 = new char[chars.length/2];
+            char[] t1 = new char[(chars.length + 1) / 2];
+            char[] t2 = new char[chars.length / 2];
             for (int i = 0; i < chars.length; i++) {
                 if (i % 2 == 0) {
-                    t1[i/2] = chars[i];
+                    t1[i / 2] = chars[i];
                 } else {
-                    t2[i/2] = chars[i];
+                    t2[i / 2] = chars[i];
                 }
             }
             Arrays.sort(t1);
