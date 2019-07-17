@@ -254,7 +254,6 @@ public class ListTest {
     }
 
 
-
     public int minPathSum(int[][] grid) {
         int maxm = grid.length - 1;
         int maxn = grid[0].length - 1;
@@ -264,14 +263,14 @@ public class ListTest {
     public int minPathSum(int[][] grid, int m, int n, int maxm, int maxn, int sum, boolean flag) {
         sum += grid[m][n];
         if (m == maxm && n == maxn) return sum;
-        if ((flag && m < maxm) || n==maxn) return minPathSum(grid, m + 1, n, maxm, maxn, sum, true);
-        if (n < maxn ) return minPathSum(grid, m, n + 1, maxm, maxn, sum, false);
+        if ((flag && m < maxm) || n == maxn) return minPathSum(grid, m + 1, n, maxm, maxn, sum, true);
+        if (n < maxn) return minPathSum(grid, m, n + 1, maxm, maxn, sum, false);
         return Math.min(minPathSum(grid, m + 1, n, maxm, maxn, sum, true), minPathSum(grid, m, n + 1, maxm, maxn, sum, false));
     }
 
     //交集测试
     @Test
-    public void test4(){
+    public void test4() {
         List<String> list = new ArrayList<>();
 //        list.add("1");
 //        list.add("2");
@@ -282,24 +281,24 @@ public class ListTest {
 //        p.add("5");
         List<String> t = new ArrayList<>(p);
         boolean b = t.retainAll(list);
-        log.debug("{}",b);
-        log.debug("{}",p);
-        log.debug("{}",t);
+        log.debug("{}", b);
+        log.debug("{}", p);
+        log.debug("{}", t);
         List<String> test = new Vector<>();
         List<String> test1 = new ArrayList<>();
-        List<String> test2= new LinkedList<>(); //queue
-        List<String> tes3= new Stack<>();
+        List<String> test2 = new LinkedList<>(); //queue
+        List<String> tes3 = new Stack<>();
 
     }
 
     @Test
-    public void test6(){
+    public void test6() {
         List<Integer> list = new ArrayList<>();
         list.add(null);
         list.add(1);
         list.add(2);
         list.add(3);
-        log.debug("list = {}",list);
+        log.debug("list = {}", list);
 
         LinkedList<Integer> queue = new LinkedList<>();
         queue.offer(1);
@@ -308,13 +307,52 @@ public class ListTest {
         queue.offer(4);
         queue.offer(3);
         queue.offer(5);
-        log.debug("queue = {}",queue);
+        log.debug("queue = {}", queue);
         queue.poll();
-        log.debug("queue = {}",queue);
+        log.debug("queue = {}", queue);
         queue.getFirst();
-        log.debug("queue = {}",queue);
+        log.debug("queue = {}", queue);
         queue.pollLast();
-        log.debug("queue = {}",queue);
+        log.debug("queue = {}", queue);
     }
 
+    @Test
+    public void test7() {
+        print(new int[]{2,3,6});
+
+    }
+
+    private Map<Integer, List<String>> map = new HashMap<>();
+
+    {
+        map.put(2, Arrays.asList("a", "b", "c"));
+        map.put(3, Arrays.asList("d", "e", "f"));
+        map.put(4, Arrays.asList("g", "h", "i"));
+        map.put(5, Arrays.asList("j", "k", "l"));
+        map.put(6, Arrays.asList("m", "n", "o"));
+        map.put(7, Arrays.asList("p", "q", "r", "s"));
+        map.put(8, Arrays.asList("t", "u", "v"));
+        map.put(9, Arrays.asList("w", "x", "y", "z"));
+    }
+
+    public List<String> print(int[] arr) {
+        List<String> s = map.get(arr[0]);
+        LinkedList<String> queue = new LinkedList<>(s);
+        if (arr.length > 1) {
+            for (int i = 1; i < arr.length; i++) {
+                List<String> list = map.get(arr[i]);
+                if (queue.size() > 0) {
+                    int size = queue.size();
+                    while (size > 0) {
+                        String peek = queue.poll();
+                        list.forEach(c ->queue.add(peek+c));
+                        size--;
+                    }
+                }
+            }
+        }
+        List<String> res = new ArrayList<>(queue);
+        res.forEach(t -> System.out.print(t+" "));
+        return res;
+    }
 }

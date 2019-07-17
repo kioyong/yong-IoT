@@ -4,10 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -233,9 +232,61 @@ public class StringTest {
 
     @Test
     public void test13() {
-//        String s = decodeAtIndex("ixm5xmgo78", 711);
-//        log.debug("s = {}", s);
+        String s = "1";
+        String lang = getLang("你好", "abc");
+        assertEquals(lang, "zh-cn");
+        lang = getLang("1", "abc");
+        assertEquals(lang, "zh-cn");
+        lang = getLang("17/7", "abc");
+        assertEquals(lang, "zh-cn");
+        lang = getLang("1", "abc");
+        assertEquals(lang, "zh-cn");
+        lang = getLang("hello", "abc");
+        assertEquals(lang, "en");
+        lang = getLang("1", "abc");
+        assertEquals(lang, "en");
+        lang = getLang("你好", "abc");
+        assertEquals(lang, "zh-cn");
+        lang = getLang("1", "abc");
+        assertEquals(lang, "zh-cn");
 
+    }
+
+    private Map<String, String> langs = new HashMap<>();
+
+    public String getLang(String content, String sender) {
+        if (langs.get(sender) != null) {
+            try {
+                String regEx = "^[0-9/\\- ]+$";
+                Pattern p = Pattern.compile(regEx);
+                Matcher m = p.matcher(content);
+                if (m.find()) {
+                    return langs.get(sender);
+                }
+            } catch (Exception ignored) {}
+        }
+        String regEx = "[\\u4e00-\\u9fa5]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(content);
+        if (!m.find()) {
+            langs.put(sender, "en");
+            log.debug("sender {} is using {}", sender, "en");
+            return "en";
+        } else {
+            try {
+                if (content.equals(new String(content.getBytes("GB2312"), "GB2312"))) {
+                    log.debug("sender {} is using {}", sender, "zh-cn");
+                    langs.put(sender, "zh-cn");
+                    return "zh-cn";
+                } else {
+                    log.debug("sender {} is using {}", sender, "zh-HK");
+                    langs.put(sender, "zh-HK");
+                    return "zh-HK";
+                }
+            } catch (Exception e) {
+                return "zh-cn";
+            }
+        }
     }
 
     public String decodeAtIndex(String S, int K) {

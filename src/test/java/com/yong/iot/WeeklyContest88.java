@@ -48,23 +48,23 @@ public class WeeklyContest88 {
         int left = 0;
         int right = 0;
         for (int i = 1; i < seats.length; i++) {
-            if (seats[i - 1] == 1 && seats[i] == 0) {
-                left = i;
-            } else if (seats[i - 1] == 0 && seats[i] == 0) {
-                if (i == 1) left = 0;
-                if (i == seats.length - 1) {
+                if (seats[i - 1] == 1 && seats[i] == 0) {
+                    left = i;
+                } else if (seats[i - 1] == 0 && seats[i] == 0) {
+                    if (i == 1) left = 0;
+                    if (i == seats.length - 1) {
+                        right = i;
+                        cot = right - left + 1;
+                    }
+                } else if (seats[i - 1] == 0 && seats[i] == 1) {
                     right = i;
-                    cot = right - left + 1;
+                    if (left != 0) {
+                        cot = (right - left + 1) / 2;
+                    } else {
+                        cot = right - left;
+                    }
+                    res = Math.max(res, cot);
                 }
-            } else if (seats[i - 1] == 0 && seats[i] == 1) {
-                right = i;
-                if (left != 0) {
-                    cot = (right - left + 1) / 2;
-                } else {
-                    cot = right - left;
-                }
-                res = Math.max(res, cot);
-            }
         }
         res = Math.max(res, cot);
         return res;

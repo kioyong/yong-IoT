@@ -3,6 +3,7 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import static org.junit.Assert.assertEquals;
@@ -39,6 +40,25 @@ public class FunctionTest {
         length = myFunction.apply("this is test");
         log.debug("length = {}", length);
 
+    }
+
+    @Test
+    public void test3() {
+        Function<String, Integer> f = t -> t.length() + 5;
+        Integer length = func("oh", f);
+        log.info("length = {}", length);
+        length = f.apply("oh");
+        log.info("length = {}", length);
+        length = f.apply("my");
+        log.info("length = {}", length);
+        length = f.apply("godddddddddddd");
+        log.info("length = {}", length);
+        length = Optional.of("test").map(f).get();
+        log.info("length = {}", length);
+    }
+
+    public Integer func(String s, Function<String, Integer> f) {
+        return f.apply(s);
     }
 }
 

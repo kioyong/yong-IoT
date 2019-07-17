@@ -18,4 +18,13 @@ public class DateTest {
         Date parse = sdate.parse(s);
         log.debug("date = {}",parse);
     }
+
+    @Test
+    public void test1() throws InterruptedException {
+        long time = new Date().getTime();
+        log.info("time is :{}",time);
+        Thread.sleep(3000L);
+        time = new Date().getTime();
+        log.info("time is :{}",time);
+    }
 }
