@@ -20,6 +20,7 @@ public class WeeklyContest95 {
 
     public ListNode middleNode(ListNode head) {
         int level = middleNode(head, 1);
+
         return middleNode(head, 0, level);
     }
 

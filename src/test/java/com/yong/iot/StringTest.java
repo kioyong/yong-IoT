@@ -239,6 +239,10 @@ public class StringTest {
         assertEquals(lang, "zh-cn");
         lang = getLang("17/7", "abc");
         assertEquals(lang, "zh-cn");
+        lang = getLang("5PM", "abc");
+        assertEquals(lang, "zh-cn");
+        lang = getLang("517219382@qq.com", "abc");
+        assertEquals(lang, "zh-cn");
         lang = getLang("1", "abc");
         assertEquals(lang, "zh-cn");
         lang = getLang("hello", "abc");
@@ -257,9 +261,15 @@ public class StringTest {
     public String getLang(String content, String sender) {
         if (langs.get(sender) != null) {
             try {
-                String regEx = "^[0-9/\\- ]+$";
+                String regEx = "^[0-9/\\- aApPmM]+$";
                 Pattern p = Pattern.compile(regEx);
                 Matcher m = p.matcher(content);
+                if (m.find()) {
+                    return langs.get(sender);
+                }
+                regEx = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+                p = Pattern.compile(regEx);
+                m = p.matcher(content);
                 if (m.find()) {
                     return langs.get(sender);
                 }

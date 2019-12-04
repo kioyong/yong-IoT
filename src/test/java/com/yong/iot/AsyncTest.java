@@ -7,7 +7,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -72,18 +71,18 @@ public class AsyncTest {
     }
 
 
-    public String runA(){
+    private String runA(){
         try {
-            Thread.sleep(1000l);
+            Thread.sleep(1000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return "messageA";
     }
 
-    public String runB(){
+    private String runB(){
         try {
-            Thread.sleep(1000l);
+            Thread.sleep(1000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -91,19 +90,12 @@ public class AsyncTest {
     }
 
 
-    public void sleep1000() {
+    private void sleep1000() {
         try {
-            Thread.sleep(1000l);
+            Thread.sleep(1000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void sleep1100() {
-        try {
-            Thread.sleep(1100l);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }

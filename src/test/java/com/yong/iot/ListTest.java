@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.core.io.ByteArrayResource;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,9 +53,9 @@ public class ListTest {
 
     @Test
     public void test3() {
-        List<Integer> list = getTestData();
+        List list = getTestData();
 //        list.sort(Comparator.reverseOrder());
-        list.stream().sorted((t1, t2) -> -1).forEach(System.out::println);
+        list.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
     }
 
     public boolean containsDuplicate(int[] nums) {
@@ -354,5 +355,18 @@ public class ListTest {
         List<String> res = new ArrayList<>(queue);
         res.forEach(t -> System.out.print(t+" "));
         return res;
+    }
+
+    @Test
+    public void test12(){
+        List<String> strings = new ArrayList<>();
+        for(int i=1;i<80000;i++){
+            strings.add(i+"");
+        }
+        String s = strings.stream()
+            .map(t -> String.format("%08d", Integer.valueOf(t)))
+            .reduce((s1, s2) -> s1.concat("\n").concat(s2)).get();
+        ByteArrayResource byteArrayResource = new ByteArrayResource(s.getBytes());
+
     }
 }
