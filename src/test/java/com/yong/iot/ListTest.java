@@ -319,7 +319,7 @@ public class ListTest {
 
     @Test
     public void test7() {
-        print(new int[]{2,3,6});
+        print(new int[]{2, 3, 6});
 
     }
 
@@ -346,27 +346,32 @@ public class ListTest {
                     int size = queue.size();
                     while (size > 0) {
                         String peek = queue.poll();
-                        list.forEach(c ->queue.add(peek+c));
+                        list.forEach(c -> queue.add(peek + c));
                         size--;
                     }
                 }
             }
         }
         List<String> res = new ArrayList<>(queue);
-        res.forEach(t -> System.out.print(t+" "));
+        res.forEach(t -> System.out.print(t + " "));
         return res;
     }
 
     @Test
-    public void test12(){
+    public void test12() {
         List<String> strings = new ArrayList<>();
-        for(int i=1;i<80000;i++){
-            strings.add(i+"");
+        for (int i = 1; i < 80000; i++) {
+            strings.add(i + "");
         }
         String s = strings.stream()
             .map(t -> String.format("%08d", Integer.valueOf(t)))
             .reduce((s1, s2) -> s1.concat("\n").concat(s2)).get();
         ByteArrayResource byteArrayResource = new ByteArrayResource(s.getBytes());
 
+    }
+
+    public int findNumbers(int[] nums) {
+
+        return 0;
     }
 }

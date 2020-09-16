@@ -1,17 +1,15 @@
 package com.yong.iot;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.junit.Test;
 
-import javax.validation.constraints.AssertTrue;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * @acthor yong.a.liang
@@ -134,8 +132,8 @@ public class CommonTest {
         long l2 = Long.valueOf(var2);
         long ln = Long.valueOf(n);
         return Math.abs(l1 - ln) > Math.abs(l2 - ln) ||
-            (Math.abs(l1 - ln) == Math.abs(l2 - ln) && l1 > l2)
-            ;
+                (Math.abs(l1 - ln) == Math.abs(l2 - ln) && l1 > l2)
+                ;
     }
 
     @Test

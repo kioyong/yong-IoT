@@ -2,8 +2,6 @@ package com.yong.iot;
 
 import org.junit.Test;
 
-import java.util.concurrent.CountDownLatch;
-
 public class TransformToSingleExitPoint {
 
     public void printPoint(String someValue) {
@@ -15,33 +13,38 @@ public class TransformToSingleExitPoint {
     }
 
     class Foo {
-        CountDownLatch c1 = new CountDownLatch(1);
-        CountDownLatch c2 = new CountDownLatch(1);
+        private final Object l = new Object();
+        private final Object l2 = new Object();
 
         public Foo() {
 
         }
 
         public void first(Runnable printFirst) throws InterruptedException {
+            synchronized (l) {
+                printFirst.run();
+                l.notifyAll();
+            }
 
-            // printFirst.run() outputs "first". Do not change or remove this line.
-            printFirst.run();
-            c1.countDown();
         }
 
         public void second(Runnable printSecond) throws InterruptedException {
-            c1.await();
-            // printSecond.run() outputs "second". Do not change or remove this line.
-            printSecond.run();
-            c2.countDown();
+            synchronized (l) {
+                l.wait();
+                printSecond.run();
+                l2.notifyAll();
+            }
+
         }
 
         public void third(Runnable printThird) throws InterruptedException {
-            c2.await();
-            // printThird.run() outputs "third". Do not change or remove this line.
-            printThird.run();
+            synchronized (l2) {
+                l2.wait();
+                printThird.run();
+            }
         }
     }
+
 
     @Test
     public void showThread() {
@@ -69,7 +72,7 @@ public class TransformToSingleExitPoint {
                 e.printStackTrace();
             }
         });
-               t3.start();
+        t3.start();
         try {
             Thread.sleep(500L);
         } catch (InterruptedException e) {

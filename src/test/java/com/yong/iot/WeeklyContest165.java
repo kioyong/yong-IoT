@@ -3,9 +3,7 @@ package com.yong.iot;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class WeeklyContest165 {
@@ -66,24 +64,23 @@ public class WeeklyContest165 {
 
     @Test
     public void test2() {
-        numOfBurgers(2385088, 164763);
+        List<Integer> integers = numOfBurgers(2385088, 164763);
     }
 
-    public List<Integer> numOfBurgers(int tomatoSlices, int cheeseSlices) {
-        List<Integer> res = new ArrayList<>();
-        if (tomatoSlices % 2 != 0) return res;
-        if (tomatoSlices < 2 * cheeseSlices) return res;
-        int x = (tomatoSlices - 2 * cheeseSlices) / 2;
-        int y = (tomatoSlices - 4 * x) / 2;
-        if (x < 0 || y < 0) return res;
-        res.add(x);
-        res.add(y);
-        return res;
+    public List<Integer> numOfBurgers(int a, int b) {
+        List<Integer> r = new ArrayList<>();
+        if (a % 2 != 0 || a < 2 * b) return r;
+        int x = (a - 2 * b) / 2;
+        int y = (a - 4 * x) / 2;
+        if (y < 0) return r;
+        r.add(x);
+        r.add(y);
+        return r;
     }
 
     @Test
     public void test3() {
-        countSquares(new int[][]{{0, 1, 1, 1}, {1, 1, 1, 1}, {0, 1, 1, 1}});
+        int i = countSquares(new int[][]{{0, 1, 1, 1}, {1, 1, 1, 1}, {0, 1, 1, 1}});
     }
 
     public int countSquares(int[][] matrix) {
@@ -99,7 +96,6 @@ public class WeeklyContest165 {
         for (int x = 1; x < max; x++) {
             for (int i = 0; i < matrix.length - x; i++) {
                 for (int j = 0; j < matrix[0].length - x; j++) {
-
                     boolean flag = true;
                     S:
                     for (int n = 0; n <= x; n++) {
@@ -122,4 +118,44 @@ public class WeeklyContest165 {
     @Test
     public void test4() {
     }
+
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    public int maxLevelSum(TreeNode root) {
+        int max = 0;
+        int res = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        sumRes(root, 0, map);
+        for (Integer i : map.keySet()) {
+            if (map.get(i) > max) {
+                res = i;
+                max = map.get(i);
+            }
+        }
+        return res+1;
+    }
+
+    public void sumRes(TreeNode node, int i, Map<Integer, Integer> res) {
+        if (node != null) {
+            if (res.get(i) == null) {
+                res.put(i, node.val);
+            } else {
+                res.put(i, res.get(i) + node.val);
+            }
+            i += 1;
+            sumRes(node.left, i, res);
+            sumRes(node.right, i, res);
+        }
+
+    }
+
 }
