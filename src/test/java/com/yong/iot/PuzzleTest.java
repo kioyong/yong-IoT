@@ -1,7 +1,13 @@
 package com.yong.iot;
 
-import java.util.Map;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PuzzleTest {
 
@@ -46,12 +52,55 @@ public class PuzzleTest {
 
         for (int i = 0; i < nums.length; i++) {
             map.put(i, nums[i]);
+            used(result, nums[i]);
         }
 
 
     }
 
-    public void put(int[][] result) {
+    public static void used(int[][] result, int[] p) {
 
     }
+
+    @Test
+    public void test() {
+        int[] nums = new int[]{58, 58, 50, 50, 50, 38, 38, 38, 38, 33, 32, 30, 25, 25, 25, 25, 24, 20, 18, 17, 13, 12, 10, 8};
+        Arrays.parallelSort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            int s = nums[i];
+            List<List<Integer>> res = new ArrayList<>();
+            List<Integer> cur = new ArrayList<>();
+            cur.add(i);
+            findSum(nums[i], nums, res, cur);
+            res.forEach(r -> {
+                r.forEach(g -> {
+                    System.out.print(nums[g] + " ,");
+                });
+                System.out.println("");
+            });
+        }
+    }
+
+    public void findSum(int sum, int[] nums, List<List<Integer>> res, List<Integer> current) {
+        for (int i = 0; i < nums.length; i++) {
+            if (current.contains(i)) continue;
+            if (sum + nums[i] > 100) {
+                break;
+            } else if (sum + nums[i] == 100) {
+                current.add(i);
+                List<Integer> sorted = current.stream().sorted((r1,r2) -> r2-r1).collect(Collectors.toList());
+                if(!res.contains(sorted)){
+                    res.add(sorted);
+                }
+                break;
+            } else if (sum + nums[i] < 100) {
+                int s = sum + nums[i];
+                ArrayList<Integer> temp = new ArrayList<>(current);
+                temp.add(i);
+                findSum(s, nums, res, temp);
+            }
+        }
+    }
 }
+
+

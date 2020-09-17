@@ -29,7 +29,7 @@ public class DfsTest {
                     return res;
                 }
                 List<String> visited = new ArrayList<>();
-                for (int i = 0; i < total.size(); i++) {
+                for (int i = total.size() - 1; i >= 0; i--) {
                     String s1 = total.get(i);
                     int dif = 0;
                     for (int j = 0; j < word.length(); j++) {
